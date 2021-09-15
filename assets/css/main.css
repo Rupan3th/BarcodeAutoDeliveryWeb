@@ -1,0 +1,7 @@
+table.v-table thead th {
+    font-size: 14px !important;
+}
+
+table.v-table tbody td {
+    font-size: 14px !important;
+}
