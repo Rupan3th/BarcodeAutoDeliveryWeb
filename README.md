@@ -49,5 +49,3 @@ Material Icon Theme
 Sass  
 
 <br>
-
-
