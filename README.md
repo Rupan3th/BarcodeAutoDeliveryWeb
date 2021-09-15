@@ -45,14 +45,8 @@ vuetify-vscode
 jQuery Code Snippets  
 Eclipse Keymap  
 IntelliSense for CSS class names in HTML  
-Korean Language Pack for Visual Studio Code  
 Material Icon Theme  
 Sass  
 
 <br>
 
-
-## posting blog  
----
-
-[https://linked2ev.github.io/tag/devlog-nuxt/](https://linked2ev.github.io/tag/devlog-nuxt/)
