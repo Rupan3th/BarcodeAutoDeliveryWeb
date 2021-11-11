@@ -8,6 +8,10 @@ userModel.getUsers = (req, callback) => {
     if(req.body.level == '2') {
         sql = 'SELECT * FROM user where level="'+req.body.level+'" ORDER BY idx'
     }
+    if(req.body.id != null) {
+        sql = 'SELECT * FROM user where id="'+req.body.id+'"'
+    }
+    console.log('sql === ', sql)
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
     if (conn) {
         conn.query(sql, (err, rows) => {

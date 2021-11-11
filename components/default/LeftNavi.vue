@@ -100,18 +100,20 @@ export default {
       },
       {    
         text: '相机列表',
-        icon: 'preview',    
+        icon: 'qr_code_scanner',    
         children: [
-          { icon: 'qr_code_scanner', text: '查询', to: '/camera_list/QueryList'  },
-          { icon: 'content_paste_search', text: '显示内容', to: '/camera_list/ShowContents' }
+          { icon: 'low_priority', text: '订单清单', to: '/camera_list/OrderList'  },
+          { icon: 'preview', text: '限定名单', to: '/camera_list/QueryList'  },
+          { icon: 'content_paste_search', text: '设备清单', to: '/camera_list/ShowContents' }
         ]
       },
       {    
         text: '推广管理',
         icon: 'devices_other',        
         children: [
-          { icon: 'perm_media', text: '图片信息', to: '/promotion/PhotoInfo'  },
-          { icon: 'receipt_long', text: '文字信息', to: '/promotion/TextInfo' }
+          { icon: 'receipt_long', text: '信息列表', to: '/promotion/MessageList'  },
+          // { icon: 'perm_media', text: '图片信息', to: '/promotion/PhotoInfo'  },
+          { icon: 'edit_notifications', text: '发送消息', to: '/promotion/TextInfo' }
         ]
       },
       // {    

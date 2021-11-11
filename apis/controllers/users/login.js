@@ -12,8 +12,7 @@ router.post('/login', function (req, res, next) {
         // console.log(" login length", data.length)
         
         if (data != null) {                  
-            console.log(" return new data000", data[0]) 
-            
+            console.log(" return new data000", data[0])             
             res.send(data[0])
         }else {
             let faildata = {

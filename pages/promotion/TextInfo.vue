@@ -122,11 +122,10 @@
       <template slot="items" slot-scope="props" >
           <td>{{ props.item.cam_model }}</td>
           <td class="text-xs-right">{{ props.item.phone_num }}</td>
-          <td class="text-xs-right">{{ props.item.start_time }}</td>
-          <td class="text-xs-right">{{ props.item.start_hour }}</td>
-          <td class="text-xs-right">{{ props.item.end_time }}</td>
-          <td class="text-xs-right">{{ props.item.end_hour }}</td>
           <td class="text-xs-right">{{ props.item.serial_num }}</td>
+          <td class="text-xs-right">{{ props.item.uid }}</td>
+          <td class="text-xs-right">{{ props.item.start_time }}</td>
+          <td class="text-xs-right">{{ props.item.end_time }}</td>
           <td class="text-xs-right" >    
             <template selected="{ props.item }">
               <div style="margin-top: 12px; margin-bottom: -12px;">                
@@ -174,11 +173,10 @@
           value: 'cam_model',
         },
         { text: '手机号码', value: 'phone_num' },
-        { text: '开始日期', value: 'start_time' },
-        { text: '开始小时', value: 'start_hour' },
-        { text: '结束日期', value: 'end_time' },
-        { text: '结束小时', value: 'end_hour' },
         { text: '序列号', value: 'serial_num' },
+        { text: 'UID', value: 'uid' },
+        { text: '开始日期', value: 'start_time' },
+        { text: '结束日期', value: 'end_time' },
         { text: '选择', value: 'selected', sortable: false },
       ],
       start_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -197,21 +195,19 @@
         idx: '',
         cam_model: '',
         phone_num: '',
-        start_time: '',
-        start_hour: '',
-        end_time: '',
-        end_hour: '',
         serial_num: '',
+        uid: '',
+        start_time: '',
+        end_time: '',        
       },
       defaultItem: {
         idx: '',
         cam_model: '',
         phone_num: '',
-        start_time: '',
-        start_hour: '',
-        end_time: '',
-        end_hour: '',
         serial_num: '',
+        uid: '',
+        start_time: '',
+        end_time: '',        
       },
     }),
     computed: {
@@ -248,11 +244,10 @@
             let newItem = {
               cam_model: res.data[i].cam_model,
               phone_num:  res.data[i].phone_num,
-              start_time: res.data[i].start_time.toString().substring(0, 10),
-              start_hour: res.data[i].start_hour.toString().substring(0, 5),
-              end_time: res.data[i].end_time.toString().substring(0, 10),
-              end_hour: res.data[i].end_hour.toString().substring(0, 5),
               serial_num: res.data[i].serial_num,
+              uid: res.data[i].uid,
+              start_time: res.data[i].start_time.toString().substring(0, 10),
+              end_time: res.data[i].end_time.toString().substring(0, 10),
               selected: false
             }
             // console.log('editedItem ====', this.editedItem.cam_model)
@@ -274,7 +269,8 @@
             let newItem = {
               cam_model: this.desserts[i].cam_model,
               phone_num: this.desserts[i].phone_num,
-              serial_num: this.desserts[i].serial_num,              
+              serial_num: this.desserts[i].serial_num,    
+              uid: this.desserts[i].uid,          
             } 
             this.push_addresses.push(newItem)
           }          

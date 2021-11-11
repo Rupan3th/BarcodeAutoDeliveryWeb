@@ -7,10 +7,11 @@ let messageModel = {};
 messageModel.InsertNewRow = (req, callback) => {
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION    
     
-    var sql = 'INSERT INTO messages (cam_model,phone_num,serial_num,send_time,message,image) VALUES("'    
+    var sql = 'INSERT INTO messages (cam_model,phone_num,serial_num,uid,send_time,message,image) VALUES("'    
                 +req.body.cam_model+'","'
                 +req.body.phone_num+'","'
-                +req.body.serial_num+'",NOW(),"'
+                +req.body.serial_num+'","'
+                +req.body.uid+'",NOW(),"'
                 +req.body.message+'","'                
                 +req.body.image+'")'   
                 
@@ -34,8 +35,8 @@ messageModel.getMessagebySN = (req, callback) => {
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION    
     console.log("request get sms === ", req.body)
     
-    var sql = 'SELECT * FROM messages WHERE cam_model="'   
-                +req.body.cam_model+'" AND serial_num="'
+    var sql = 'SELECT  message, send_time FROM messages WHERE phone_num="'   
+                +req.body.phone_num+'" AND serial_num="'
                 +req.body.serial_num+'"'   
                 
     console.log(sql)
@@ -54,16 +55,54 @@ messageModel.getMessagebySN = (req, callback) => {
     }
 }
 
-messageModel.getMessages = (req, callback) => {
-    const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION    
-    console.log("request get sms === ", req.body)
-    
-    var sql = 'SELECT * FROM messages'   
-                
-    console.log(sql)
-    
+messageModel.getMessageList = (callback) => {
+    const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
     if (conn) {
-        conn.query(sql, (err, rows) => {
+        conn.query('set names utf8',
+            (err, rows) => {
+                if (err) {
+                    throw err
+                }
+                else {
+                    conn.query('SELECT * FROM messages',
+                        (err, rows) => {
+                            if (err) {
+                                throw err
+                            }
+                            else {
+                                callback(null, rows);
+                                conn.end()
+                            }
+                        }
+                    )
+                }
+            }
+        )
+    }
+}
+
+messageModel.GetIdxSelected = (req, callback) => {
+    const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
+    if (conn) {
+        conn.query('SELECT idx FROM messages WHERE cam_model="'+req.body.cam_model+'" AND phone_num="'+req.body.phone_num+'" AND serial_num="'+req.body.serial_num+'" AND message="'+req.body.message+'"',
+            (err, rows) => {
+                if (err) {
+                    throw err
+                }
+                else {
+                    callback(null, rows);
+                    conn.end()
+                }
+            }
+        )
+    }
+}
+
+messageModel.DeleteSelectedRow = (req, callback) => {
+    const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
+    if (conn) {
+        conn.query('DELETE FROM messages WHERE idx="'+req.body.idx+'"',
+            (err, rows) => {
                 if (err) {
                     throw err
                 }
