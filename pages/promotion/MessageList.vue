@@ -37,14 +37,16 @@
       :headers="headers"
       :items="desserts"
       :search="search"
-      sort-by="start_time"
+      :pagination.sync="pagination"
       class="elevation-1"
+      rows-per-page-text="每页行数" 
     >
       
       <template slot="items" slot-scope="props" >
           <td>{{ props.item.cam_model }}</td>
+          <td class="text-xs-right">{{ props.item.ex_serial_num }}</td>
+          <td class="text-xs-right">{{ props.item.order_num }}</td>
           <td class="text-xs-right">{{ props.item.phone_num }}</td>
-          <td class="text-xs-right">{{ props.item.serial_num }}</td>
           <td class="text-xs-right">{{ props.item.send_time }}</td>
           <td class="text-xs-right">{{ props.item.message }}</td>
           <td class="text-xs-right">{{ props.item.image }}</td>
@@ -78,7 +80,13 @@
   import axios from 'axios'
   
   export default {
-    data: () => ({
+    data: () => ({      
+      pagination: {
+          sortBy: 'send_time',
+          descending: true,
+          rowsPerPage: 10
+        },
+
       dialog: false,
       dialogDelete: false,
       formIsValid: false,
@@ -88,16 +96,17 @@
       headers: [
         {
           text: '相机型号',
-          align: 'start',
+          align: 'center',
           sortable: false,
           value: 'cam_model',
         },
-        { text: '手机号码', value: 'phone_num' },
-        { text: '序列号', value: 'serial_num' },
-        { text: '发送时间', value: 'send_time' },
-        { text: '消息', value: 'message' },
-        { text: '形象', value: 'image' },
-        { text: '行动', value: 'actions', sortable: false },
+        { text: 'ExSerialNumber', value: 'ex_serial_num', align: 'center', },
+        { text: '订单号', value: 'order_num', align: 'center', },
+        { text: '手机号码', value: 'phone_num', align: 'center', },
+        { text: '发送时间', value: 'send_time', align: 'center', },
+        { text: '信息内容', value: 'message', align: 'center', },
+        { text: '图像', value: 'image', align: 'center', },
+        { text: '作用', value: 'actions', sortable: false , align: 'center',},
       ],
       start_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       end_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -113,8 +122,9 @@
       editedItem: {
         idx: '',
         cam_model: '',
+        order_num: '',
         phone_num: '',
-        serial_num: '',
+        ex_serial_num: '',
         send_time: '',
         message: '',
         image: '',
@@ -122,8 +132,9 @@
       defaultItem: {
         idx: '',
         cam_model: '',
+        order_num: '',
         phone_num: '',
-        serial_num: '',
+        ex_serial_num: '',
         send_time: '',
         message: '',
         image: '',
@@ -160,11 +171,15 @@
           var i;
           for(i=0; i<res.data.length; i++){
             console.log('send_time ====', res.data[i].send_time.toString().substring(0, 10))
+            var d = new Date(res.data[i].send_time);
+            var datestring = d.getFullYear() + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+                        
             let newItem = {
               cam_model: res.data[i].cam_model,
+              order_num:  res.data[i].order_num,
               phone_num:  res.data[i].phone_num,
-              serial_num: res.data[i].serial_num,
-              send_time: res.data[i].send_time.toString(),
+              ex_serial_num: res.data[i].ex_serial_num,
+              send_time: datestring,
               message: res.data[i].message,
               image: res.data[i].image
             }

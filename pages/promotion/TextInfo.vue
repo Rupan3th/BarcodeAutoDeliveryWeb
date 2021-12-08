@@ -46,6 +46,12 @@
             </v-card-title>
             <v-card-text>              
               <v-container>    
+
+                <v-text-field :readonly = "true"
+                      v-model="order_nums"
+                      label="订单号"
+                      prepend-icon="precision_manufacturing"                      
+                ></v-text-field>
                 
                 <v-text-field :readonly = "true"
                       v-model="phone_nums"
@@ -56,12 +62,12 @@
                 <v-textarea outlined 
                   prepend-inner-icon="comment"
                   v-model="message_content"
-                  label="讯息"
+                  label="信息内容"
                   rows="4"
                   
                 ></v-textarea>
 
-                <v-img                  
+                <!-- <v-img                  
                   lazy-src="https://picsum.photos/id/11/10/6"
                   max-height="500"
                   max-width="100%"
@@ -71,7 +77,7 @@
 
                  <input type="file" id="image_uploads" ref="file" 
                     v-on:change="handleFileUpload()"                    
-                    accept="image/png, image/jpeg"/>
+                    accept="image/png, image/jpeg"/> -->
                 
               </v-container>              
             </v-card-text>
@@ -79,14 +85,14 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
-                color="blue darken-1"
+                color="primary "
                 text
                 @click="close"
               >
                 取消
               </v-btn>
               <v-btn               
-                color="blue darken-1"
+                color="primary "
                 text
                 @click="send"
               >
@@ -102,8 +108,8 @@
             <v-card-title class="text-h5">是否确实要删除此项目？</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">取消</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">确认</v-btn>
+              <v-btn color="primary " text @click="closeDelete">取消</v-btn>
+              <v-btn color="primary " text @click="deleteItemConfirm">确认</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -115,17 +121,23 @@
       :headers="headers"
       :items="desserts"
       :search="search"
-      sort-by="start_time"
+      :pagination.sync="pagination"
       class="elevation-1"
+      rows-per-page-text="每页行数" 
     >
       
       <template slot="items" slot-scope="props" >
           <td>{{ props.item.cam_model }}</td>
+          <td class="text-xs-right">{{ props.item.pid }}</td>
+          <td class="text-xs-right">{{ props.item.vid }}</td>
+          <td class="text-xs-right">{{ props.item.manufacturer }}</td>  
+          <td class="text-xs-right">{{ props.item.product_info }}</td>
+          <!-- <td class="text-xs-right">{{ props.item.serial_num }}</td> -->
+          <td class="text-xs-right">{{ props.item.ex_serial_num }}</td>
+          <td class="text-xs-right">{{ props.item.order_num }}</td>
           <td class="text-xs-right">{{ props.item.phone_num }}</td>
-          <td class="text-xs-right">{{ props.item.serial_num }}</td>
-          <td class="text-xs-right">{{ props.item.uid }}</td>
-          <td class="text-xs-right">{{ props.item.start_time }}</td>
           <td class="text-xs-right">{{ props.item.end_time }}</td>
+          <td class="text-xs-right">{{ props.item.remarks }}</td>
           <td class="text-xs-right" >    
             <template selected="{ props.item }">
               <div style="margin-top: 12px; margin-bottom: -12px;">                
@@ -156,6 +168,12 @@
   
   export default {
     data: () => ({
+      pagination: {
+          sortBy: 'end_time',
+          descending: false,
+          rowsPerPage: 10
+        },
+
       dialog: false,
       dialogDelete: false,
       formIsValid: false,
@@ -168,16 +186,21 @@
       headers: [
         {
           text: '相机型号',
-          align: 'start',
+          align: 'center',
           sortable: false,
           value: 'cam_model',
         },
-        { text: '手机号码', value: 'phone_num' },
-        { text: '序列号', value: 'serial_num' },
-        { text: 'UID', value: 'uid' },
-        { text: '开始日期', value: 'start_time' },
-        { text: '结束日期', value: 'end_time' },
-        { text: '选择', value: 'selected', sortable: false },
+        { text: 'PID', value: 'pid', align: 'center' },
+        { text: 'VID', value: 'vid', align: 'center' },
+        { text: 'Manufacturer', value: 'manufacturer', align: 'center' },
+        { text: 'ProductInfo', value: 'product_info', align: 'center' },
+        // { text: '序列号', value: 'serial_num' },
+        { text: 'ExSerialNumber', value: 'ex_serial_num', align: 'center' },
+        { text: '订单号', value: 'order_num', align: 'center' },
+        { text: '手机号码', value: 'phone_num', align: 'center' },    
+        { text: '结束日期', value: 'end_time', align: 'center' },
+        { text: '状态', value: 'remarks', align: 'center' },
+        { text: '选择', value: 'selected', sortable: false , align: 'center'},
       ],
       start_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       end_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -194,20 +217,34 @@
       editedItem: {
         idx: '',
         cam_model: '',
-        phone_num: '',
+        pid: '',
+        vid: '',
+        manufacturer: '',
+        product_info: '',
         serial_num: '',
-        uid: '',
+        ex_serial_num: '',
+        order_num: '',
+        phone_num: '',
         start_time: '',
-        end_time: '',        
+        end_time: '',
+        client_name: '',
+        remarks: '',    
       },
       defaultItem: {
         idx: '',
         cam_model: '',
-        phone_num: '',
+        pid: '',
+        vid: '',
+        manufacturer: '',
+        product_info: '',
         serial_num: '',
-        uid: '',
+        ex_serial_num: '',
+        order_num: '',
+        phone_num: '',
         start_time: '',
-        end_time: '',        
+        end_time: '',
+        client_name: '',
+        remarks: '',           
       },
     }),
     computed: {
@@ -241,13 +278,24 @@
           var i;
           for(i=0; i<res.data.length; i++){
             console.log('start_time ====', res.data[i].start_time.toString().substring(0, 10))
+            var state_active = "";
+            if(res.data[i].allow == "2") { state_active = "活性" }
+            else if(res.data[i].allow == "1") { state_active = "等待回应" }
+            else { state_active = "试用版" }
+
             let newItem = {
               cam_model: res.data[i].cam_model,
-              phone_num:  res.data[i].phone_num,
+              pid: res.data[i].pid,
+              vid: res.data[i].vid,
+              manufacturer: res.data[i].manufacturer,
+              product_info: res.data[i].product_info,
               serial_num: res.data[i].serial_num,
-              uid: res.data[i].uid,
+              ex_serial_num: res.data[i].ex_serial_num,
+              order_num: res.data[i].order_num,
+              phone_num:  res.data[i].phone_num,
               start_time: res.data[i].start_time.toString().substring(0, 10),
               end_time: res.data[i].end_time.toString().substring(0, 10),
+              remarks: state_active,
               selected: false
             }
             // console.log('editedItem ====', this.editedItem.cam_model)
@@ -267,10 +315,11 @@
           if(this.desserts[i].selected == true) {
             // console.log(' Selected phone  ===== ', this.desserts[i].phone_num)     
             let newItem = {
-              cam_model: this.desserts[i].cam_model,
+              cam_model: this.desserts[i].cam_model,              
+              order_num: this.desserts[i].order_num,
               phone_num: this.desserts[i].phone_num,
               serial_num: this.desserts[i].serial_num,    
-              uid: this.desserts[i].uid,          
+              ex_serial_num: this.desserts[i].ex_serial_num                     
             } 
             this.push_addresses.push(newItem)
           }          
@@ -279,8 +328,10 @@
         
         if(this.push_addresses.length > 0) {
           this.phone_nums = ''
+          this.order_nums = ''
           for(var ii=0; ii<this.push_addresses.length; ii++) {
-            this.phone_nums += this.push_addresses[ii].phone_num+', ';            
+            this.phone_nums += this.push_addresses[ii].phone_num+', '; 
+            this.order_nums += this.push_addresses[ii].order_num+', ';            
           } 
           
           this.dialog = true

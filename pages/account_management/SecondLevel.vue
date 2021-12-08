@@ -40,13 +40,13 @@
               <v-container>     
                     <v-text-field  :disabled="!itemIsValid"
                       v-model="editedItem.id"
-                      label="身份证件"
+                      label="用户名"
                       prepend-icon="perm_identity"
                     ></v-text-field>
 
                     <v-text-field  :disabled="!itemIsValid"
                       v-model="editedItem.name"
-                      label="名称"
+                      label="姓名"
                       prepend-icon="textsms"
                     ></v-text-field>                
               
@@ -58,15 +58,21 @@
                       counter="11"
                     ></v-text-field>   
 
+                    <v-text-field 
+                      v-model="editedItem.email"
+                      label="电子邮件"
+                      prepend-icon="email"
+                    ></v-text-field>   
+
                     <v-text-field  
                       v-model="editedItem.company"
-                      label="公司"
+                      label="公司名"
                       prepend-icon="emoji_transportation"
                     ></v-text-field>    
 
                     <v-text-field  
                       v-model="editedItem.job_title"
-                      label="职位名称"
+                      label="职位"
                       prepend-icon="construction"
                     ></v-text-field>          
               
@@ -78,7 +84,7 @@
 
                     <v-text-field :disabled="!itemIsValid"   
                       v-model="editedItem.level"
-                      label="权限"
+                      label="级别"
                       prepend-icon="grade"
                     ></v-text-field>    
 
@@ -126,14 +132,16 @@
       :headers="headers"
       :items="desserts"
       :search="search"
-      sort-by="id"
+      :pagination.sync="pagination"      
       class="elevation-1"
+      rows-per-page-text="每页行数"      
     >
       
       <template slot="items" slot-scope="props" >
           <td>{{ props.item.id }}</td>
           <td class="text-xs-right">{{ props.item.name }}</td>
           <td class="text-xs-right">{{ props.item.phone_num }}</td>
+          <td class="text-xs-right">{{ props.item.email }}</td>
           <td class="text-xs-right">{{ props.item.company }}</td>
           <td class="text-xs-right">{{ props.item.job_title }}</td>
           <td class="text-xs-right">{{ props.item.pw }}</td>
@@ -176,6 +184,12 @@
   
   export default {
     data: () => ({
+      pagination: {
+          sortBy: 'name',
+          descending: false,
+          rowsPerPage: 10
+        },
+        
       dialog: false,
       dialogDelete: false,
       formIsValid: false,
@@ -184,18 +198,20 @@
       search: '',
       headers: [
         {
-          text: '身份证件',
-          align: 'start',
+          text: '用户名',
+          align: 'center',
           sortable: false,
           value: 'id',
+          width: '150px'
         },
-        { text: '名称', value: 'name' },
-        { text: '手机号码', value: 'phone_num' },
-        { text: '公司', value: 'company' },
-        { text: '职位名称', value: 'job_title' },
-        { text: '密码', value: 'pw' },
-        { text: '等级', value: 'level' },
-        { text: '权限', value: 'actions', sortable: false },
+        { text: '姓名', value: 'name', align: 'center', width: '200px'  },
+        { text: '手机号码', value: 'phone_num', align: 'center', width: '150px' },
+        { text: '电子邮件', value: 'email', align: 'center', width: '250px' },
+        { text: '公司名', value: 'company', align: 'center' },
+        { text: '职位', value: 'job_title', align: 'center' },
+        { text: '密码', value: 'pw', align: 'center'},
+        { text: '级别', value: 'level', align: 'center', width: '100px' },
+        { text: '作用', value: 'actions', sortable: false, align: 'center', width: '100px' },
       ],    
 
       desserts: [],
@@ -205,6 +221,7 @@
         id: '',
         name: '',
         phone_num: '',
+        email: '',
         company: '',
         job_title: '',
         pw: '',
@@ -215,6 +232,7 @@
         id: '',
         name: '',
         phone_num: '',
+        email: '',
         company: '',
         job_title: '',
         pw: '',
@@ -256,6 +274,7 @@
               id: res.data[i].id,
               name:  res.data[i].name,
               phone_num: res.data[i].phone_num,
+              email: res.data[i].email,
               company: res.data[i].company,
               job_title: res.data[i].job_title,
               pw: res.data[i].pw,
@@ -344,6 +363,7 @@
         if( this.editedItem.id == ''  ||
             this.editedItem.name == ''  ||
             this.editedItem.phone_num == ''  ||
+            this.editedItem.email == ''  ||
             this.editedItem.company == ''  ||
             this.editedItem.job_title == ''  ||
             this.editedItem.pw == ''  ||

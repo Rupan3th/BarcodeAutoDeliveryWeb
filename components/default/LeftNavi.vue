@@ -102,6 +102,7 @@ export default {
         text: '相机列表',
         icon: 'qr_code_scanner',    
         children: [
+          { icon: 'gavel', text: '试用版单', to: '/camera_list/TrialList'  },
           { icon: 'low_priority', text: '订单清单', to: '/camera_list/OrderList'  },
           { icon: 'preview', text: '限定名单', to: '/camera_list/QueryList'  },
           { icon: 'content_paste_search', text: '设备清单', to: '/camera_list/ShowContents' }
@@ -126,7 +127,8 @@ export default {
 
       { icon: 'security', text: '密码修改',  to: '/inspire' },
 
-
+      // { icon: 'upload_file', text: '新版本上传',  to: '/SingleFile' },
+      { icon: 'upload_file', text: '新版本上传',  to: '/VersionList' }
       // { icon: 'contacts', text: 'Index', to: '/' },
       // { icon: 'history', text: 'Inspire', to: '/Inspire' },
       // { icon: 'content_copy', text: '账号管理', to: '/about' },      

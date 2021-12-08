@@ -16,7 +16,7 @@
                     <v-text-field v-show="itemIsValid" prepend-icon="phone_android" label="手机号码" maxlength="11" counter="11" v-model="frmPhone"></v-text-field>
                     <v-text-field v-show="itemIsValid" prepend-icon="emoji_transportation" label="公司" type="text" v-model="frmCompany"></v-text-field>
                     <v-text-field v-show="itemIsValid" prepend-icon="construction" label="职位名称" type="text" v-model="frmJob"></v-text-field>
-                    <v-text-field prepend-icon="lock" id="password" name="pw" label="密码" type="password" v-model="frmPw" @change="validatePw"></v-text-field>
+                    <v-text-field prepend-icon="lock" id="password" name="pw" label="密码" type="password" v-model="frmPw" @change="validatePw"  @keyup.enter="login"></v-text-field>
                     <v-text-field v-show="itemIsValid" prepend-icon="password" id="checkedPassword" name="conf_pw" label="确认密码" type="password" v-model="frmPw_conf" @change="validateCheckedPw"></v-text-field>
                     <v-text-field v-show="itemIsValid" prepend-icon="mail" id="email" name="email" label="电子邮件" type="mail" v-model="frmMail" @change="validateEmail"></v-text-field>
                 </v-card-text>
@@ -48,13 +48,15 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   layout: 'loginLayout',
   data () {
     return {
       title_txt: '管理员登录',
       btn_lavel : '登录',
-      opt_txt: 'Go to regist',
+      opt_txt: '免费注册',
       returnMsg: null,
       frmId: '',
       frmName: '',
@@ -69,6 +71,7 @@ export default {
   },
   methods: {
     async login () {
+      
       if(this.itemIsValid == false){
         try {
           await this.$store.dispatch('login', {
@@ -83,6 +86,7 @@ export default {
               id: this.frmId,
               name: this.frmName,
               phone_num: this.frmPhone,
+              email: this.frmMail,
               company: this.frmCompany,
               job_title: this.frmJob,
               pw: this.frmPw,
@@ -94,7 +98,9 @@ export default {
             newItem.company != '' && 
             newItem.job_title != '' && 
             newItem.pw != '')  {
-              this.$axios.post('/apis/users/insert_new', newItem)
+
+              console.log('success regist', newItem)
+              await axios.post('/apis/users/insert_new', newItem)
               .then(res => {
                   alert("success regist") 
                   console.log('success regist')
@@ -102,7 +108,7 @@ export default {
                   this.itemIsValid = false
                   this.title_txt = '管理员登录'
                   this.btn_lavel = '登录'
-                  this.opt_txt = "Go to regist"
+                  this.opt_txt = "免费注册"
                   })
               .catch(err => {
                  alert('err ====', err) 
@@ -119,12 +125,12 @@ export default {
         this.itemIsValid = true
         this.title_txt = '管理员注册'
         this.btn_lavel = '注册'
-        this.opt_txt = "Go to login"
+        this.opt_txt = "请登录"
       } else {
         this.itemIsValid = false
         this.title_txt = '管理员登录'
         this.btn_lavel = '登录'
-        this.opt_txt = "Go to regist"
+        this.opt_txt = "免费注册"
       }      
       // this.$router.push('/v1/login/regist')
     },
@@ -143,8 +149,9 @@ export default {
                 alert("ID不可能有空白") 
                 return false 
             } else { 
-              if(this.itemIsValid == true){                
-                this.$axios.post("/apis/users/get_users", {id: id} ) 
+              if(this.itemIsValid == true){      
+                          
+                axios.post("/apis/users/get_users", {id: id} ) 
                 .then(res => { 
                     console.log('user by id ====', res.data)
                     if (res.data.length > 0) { 

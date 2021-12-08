@@ -38,39 +38,71 @@
             </v-card-title>
             <v-card-text>              
               <v-container>                
-                <v-row>
-                    <v-text-field required :disabled="!itemIsValid"
-                      v-model="editedItem.cam_model"
-                      label="相机型号"
-                      prepend-icon="camera"
-                    ></v-text-field>
-                </v-row>
+                <v-layout row wrap>                   
+                      <v-flex xs12 sm6>
+                        <v-text-field :disabled="!btnIsValid"
+                            v-model="editedItem.cam_model"
+                            label="相机型号"
+                            prepend-icon="camera"         
+                        ></v-text-field>
+                      </v-flex>  
+                      <v-flex xs12 sm6> 
+                        
+                      </v-flex>
+                </v-layout>                   
 
-                <v-row>                  
-                    <v-text-field :disabled="true" 
-                      v-model="editedItem.phone_num"
-                      label="手机号码"
-                      prepend-icon="phone_android"
-                      maxlength="11"
-                      counter="11"
-                    ></v-text-field>
-                </v-row>  
+                <v-layout row wrap>                   
+                      <v-flex xs12 sm6>
+                        <v-text-field :disabled="true"
+                          v-model="editedItem.pid"
+                          label="PID"
+                          prepend-icon="text_format"
+                        ></v-text-field>
+                      </v-flex>  
+                      <v-flex xs12 sm6> 
+                        <v-text-field :disabled="true"
+                          v-model="editedItem.vid"
+                          label="VID"
+                          prepend-icon="pin"
+                        ></v-text-field>   
+                      </v-flex>
+                </v-layout>
 
-                <v-row>
-                    <v-text-field :disabled="true"
-                      v-model="editedItem.serial_num"
-                      label="序列号"
-                      prepend-icon="pin"
-                    ></v-text-field>
-                </v-row> 
-
-                <v-row>
-                    <v-text-field :disabled="true"
-                      v-model="editedItem.uid"
-                      label="UID"
-                      prepend-icon="pin"
-                    ></v-text-field>
-                </v-row> 
+                <v-layout row wrap>                   
+                      <v-flex xs12 sm6>
+                        <v-text-field :disabled="true"
+                          v-model="editedItem.order_num"
+                          label="订单号"
+                          prepend-icon="local_shipping"                          
+                        ></v-text-field> 
+                      </v-flex>  
+                      <v-flex xs12 sm6> 
+                        <v-text-field :disabled="true"
+                          v-model="editedItem.phone_num"
+                          label="手机号码"
+                          prepend-icon="phone_android"
+                          maxlength="11"
+                          counter="11"
+                        ></v-text-field>
+                      </v-flex>
+                </v-layout>  
+                
+                <v-layout row wrap>                   
+                      <v-flex xs12 sm6>
+                        <v-text-field :disabled="true"
+                          v-model="editedItem.manufacturer"
+                          label="Manufacturer"
+                          prepend-icon="precision_manufacturing"
+                        ></v-text-field>
+                      </v-flex>  
+                      <v-flex xs12 sm6> 
+                        <v-text-field :disabled="true"
+                          v-model="editedItem.ex_serial_num"
+                          label="ExSerial Number"
+                          prepend-icon="code"
+                        ></v-text-field>
+                      </v-flex>
+                </v-layout>
               
                 <v-layout row wrap>                   
                   <v-flex xs12 sm6>
@@ -122,96 +154,8 @@
                           @input="menu2 = false"
                         ></v-date-picker>
                       </v-menu>
-                  </v-flex> 
-                  <!-- <v-flex xs12 sm6>
-                    <v-menu
-                      ref="tmenu1"
-                      v-model="timemenu1"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      :return-value.sync="time"
-                      transition="scale-transition"
-                      offset-y
-                      max-width="290px"
-                      min-width="290px"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          v-model="editedItem.start_hour"
-                          label="开始小时"
-                          prepend-icon="watch_later"
-                          readonly
-                          v-bind="attrs"
-                          v-on="on"
-                        ></v-text-field>
-                      </template>
-                      <v-time-picker
-                        v-if="timemenu1"
-                        v-model="editedItem.start_hour"
-                        full-width
-                        @click:minute="$refs.tmenu1.save(time)"
-                      ></v-time-picker>
-                    </v-menu>
-                  </v-flex>                   -->
+                  </v-flex>                   
                 </v-layout>
-
-                <!-- <v-layout row wrap>
-                  <v-flex xs12 sm6> 
-                    <v-menu
-                        v-model="menu2"
-                        :close-on-content-click="false"
-                        :nudge-right="40"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="auto"
-                      >
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-text-field
-                            v-model="editedItem.req_time"
-                            label="结束日期"
-                            prepend-icon="event"
-                            readonly
-                            v-bind="attrs"
-                            v-on="on"
-                          ></v-text-field>
-                        </template>
-                        <v-date-picker
-                          v-model="editedItem.req_time"
-                          @input="menu2 = false"
-                        ></v-date-picker>
-                      </v-menu>
-                  </v-flex>
-                  <v-flex xs12 sm6>
-                    <v-menu
-                      ref="tmenu2"
-                      v-model="timemenu2"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      :return-value.sync="time"
-                      transition="scale-transition"
-                      offset-y
-                      max-width="290px"
-                      min-width="290px"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          v-model="editedItem.end_hour"
-                          label="结束小时"
-                          prepend-icon="watch_later"
-                          readonly
-                          v-bind="attrs"
-                          v-on="on"
-                        ></v-text-field>
-                      </template>
-                      <v-time-picker
-                        v-if="timemenu2"
-                        v-model="editedItem.end_hour"
-                        full-width
-                        @click:minute="$refs.tmenu2.save(time)"
-                      ></v-time-picker>
-                    </v-menu>
-                  </v-flex>   
-                </v-layout>                 -->
                 
                 <v-spacer :disabled="!formIsValid"></v-spacer>
                 
@@ -221,14 +165,14 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
-                color="blue darken-1"
+                color="primary"
                 text
                 @click="close"
               >
                 取消
               </v-btn>
               <v-btn               
-                color="blue darken-1"
+                color="primary"
                 text
                 @click="save"
               >
@@ -244,8 +188,8 @@
             <v-card-title class="text-h5">是否确实要删除此项目？</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">取消</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">确认</v-btn>
+              <v-btn color="primary" text @click="closeDelete">取消</v-btn>
+              <v-btn color="primary" text @click="deleteItemConfirm">确认</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -257,22 +201,28 @@
       :headers="headers"
       :items="desserts"
       :search="search"
-      sort-by="start_time"
+      :pagination.sync="pagination"
       class="elevation-1"
+      rows-per-page-text="每页行数" 
     >
       
       <template slot="items" slot-scope="props" >
           <td>{{ props.item.cam_model }}</td>
-          <td class="text-xs-right">{{ props.item.phone_num }}</td>
+          <td class="text-xs-right">{{ props.item.pid }}</td>
+          <td class="text-xs-right">{{ props.item.vid }}</td>
+          <td class="text-xs-right">{{ props.item.manufacturer }}</td>
           <td class="text-xs-right">{{ props.item.serial_num }}</td>
-          <td class="text-xs-right">{{ props.item.uid }}</td>
+          <td class="text-xs-right">{{ props.item.ex_serial_num }}</td>
+          <td class="text-xs-right">{{ props.item.order_num }}</td>
+          <td class="text-xs-right">{{ props.item.phone_num }}</td>          
+          <!-- <td class="text-xs-right">{{ props.item.uid }}</td> -->
           <td class="text-xs-right">{{ props.item.end_time }}</td>
           <!-- <td class="text-xs-right">{{ props.item.start_hour }}</td> -->
           <td class="text-xs-right">{{ props.item.req_time }}</td>
           <!-- <td class="text-xs-right">{{ props.item.end_hour }}</td>  -->
           <td class="text-xs-right" >    
             <template actions="{ props.item }">
-              <v-icon
+              <v-icon :disabled="!btnIsValid"
                 small
                 class="mr-2"
                 @click="editItem(props.item)"
@@ -308,6 +258,12 @@
   
   export default {
     data: () => ({
+      pagination: {
+          sortBy: 'end_time',
+          descending: false,
+          rowsPerPage: 10
+        },
+
       dialog: false,
       dialogDelete: false,
       formIsValid: false,
@@ -317,18 +273,23 @@
       headers: [
         {
           text: '相机型号',
-          align: 'start',
+          align: 'center',
           sortable: false,
           value: 'cam_model',
         },
-        { text: '手机号码', value: 'phone_num' },
-        { text: '序列号', value: 'serial_num' },
-        { text: 'UID', value: 'uid' },
-        { text: '结束日期', value: 'end_time' },
+        { text: 'PID', value: 'pid', align: 'center' },
+        { text: 'VID', value: 'vid', align: 'center' },
+        { text: 'Manufacturer', value: 'manufacturer', align: 'center' },        
+        { text: '序列号', value: 'serial_num', align: 'center' },
+        { text: 'ExSerialNumber', value: 'ex_serial_num', align: 'center' },
+        { text: '订单号', value: 'order_num', align: 'center' },
+        { text: '手机号码', value: 'phone_num', align: 'center' },
+        // { text: 'UID', value: 'uid' },
+        { text: '结束日期', value: 'end_time', align: 'center' },
         // { text: '开始小时', value: 'start_hour' },
-        { text: '延长日期', value: 'req_time' },
+        { text: '延长日期', value: 'req_time', align: 'center' },
         // { text: '结束小时', value: 'end_hour' },        
-        { text: '行动', value: 'actions', sortable: false },
+        { text: '作用', value: 'actions', sortable: false, align: 'center' },
       ],
       // end_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       // req_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -344,26 +305,28 @@
       editedItem: {
         idx: '',
         cam_model: '',
-        phone_num: '',
+        pid: '',
+        vid: '',
+        manufacturer: '',
         serial_num: '',
-        uid: '',
-        start_time: '',
-        // start_hour: '',
+        ex_serial_num: '',
+        order_num: '',
+        phone_num: '',
         end_time: '',
-        // end_hour: '',  
         req_time: ''
       },
       defaultItem: {
         idx: '',
         cam_model: '',
-        phone_num: '',
+        pid: '',
+        vid: '',
+        manufacturer: '',
         serial_num: '',
-        uid: '',
-        start_time: '',
-        // start_hour: '',
+        ex_serial_num: '',
+        order_num: '',
+        phone_num: '',
         end_time: '',
-        // end_hour: '',    
-        req_time: ''    
+        req_time: ''
       },
     }),
     computed: {
@@ -401,13 +364,29 @@
             var rdate = new Date(res.data[i].req_time);
             var rdateString = rdate.getFullYear() +"-"+ (rdate.getMonth()+1) +"-"+ rdate.getDate()
             var edate = new Date(res.data[i].end_time);
-            var edateString = edate.getFullYear() +"-"+ (edate.getMonth()+1) +"-"+ edate.getDate()
+            var eday ="";
+            if(edate.getDate() < 10) {
+              eday = "0"+ edate.getDate()
+            }else {
+              eday = edate.getDate()
+            }
+            var emonth ="";
+            if((edate.getMonth()+1) < 10){
+              emonth = "0"+ (edate.getMonth()+1);
+            }else{
+              emonth = (edate.getMonth()+1);
+            }
+            var edateString = edate.getFullYear() +"-"+ emonth +"-"+ eday
 
             let newItem = {
               cam_model: res.data[i].cam_model,
-              phone_num:  res.data[i].phone_num,
+              pid: res.data[i].pid,
+              vid: res.data[i].vid,
+              manufacturer: res.data[i].manufacturer,
               serial_num: res.data[i].serial_num,
-              uid: res.data[i].uid,
+              ex_serial_num: res.data[i].ex_serial_num,
+              order_num:  res.data[i].order_num,
+              phone_num:  res.data[i].phone_num,              
               // start_time: res.data[i].start_time.toString().substring(0, 10),
               // start_hour: res.data[i].start_hour.toString().substring(0, 5),
               end_time: edateString,
@@ -496,8 +475,7 @@
       async save () {  
         if( this.editedItem.cam_model == ''  ||
             this.editedItem.phone_num == ''  ||
-            this.editedItem.serial_num == ''  ||
-            this.editedItem.uid == ''  ||
+            this.editedItem.ex_serial_num == ''  ||
             this.editedItem.end_time == ''  ||
             // this.editedItem.start_hour == ''  ||
             this.editedItem.req_time == '' ) this.formIsValid = true

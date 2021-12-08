@@ -9,7 +9,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'BarcodeAutoDelivery',
+    title: '条码识别系统',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -54,6 +54,9 @@ module.exports = {
     ],
     extractCSS: true,
     extend(config, ctx) {
+      config.node = {
+        fs: 'empty'
+      }
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
         config.module.rules.push({
@@ -97,6 +100,8 @@ module.exports = {
     { path: '/apis/login', handler: '~/apis/controllers/users/login.js'},
     { path: '/apis/camera_list', handler: '~/apis/controllers/camera_list/camera_list.js'},
     { path: '/apis/users', handler: '~/apis/controllers/users/users.js'},
-    { path: '/apis/messages', handler: '~/apis/controllers/messages/messages.js'}
+    { path: '/apis/messages', handler: '~/apis/controllers/messages/messages.js'},
+    { path: '/apis/versions', handler: '~/apis/controllers/versions/versions.js'},
+    { path: '/apis/upload', handler: '~/apis/controllers/upload.js'}
   ]
 }

@@ -272,6 +272,7 @@
       :search="search"
       sort-by="start_time"
       class="elevation-1"
+      rows-per-page-text="每页行数" 
     >
       
       <template slot="items" slot-scope="props" >

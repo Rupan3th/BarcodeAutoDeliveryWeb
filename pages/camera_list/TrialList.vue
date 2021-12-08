@@ -2,7 +2,7 @@
   <div>
     <template>     
       <v-toolbar flat >
-        <v-toolbar-title>限定名单</v-toolbar-title>
+        <v-toolbar-title>试用版单</v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -21,7 +21,7 @@
       
         <v-dialog v-model="dialog" max-width="600">      
           <template v-slot:activator="{ on, attrs }">
-            <v-btn :disabled="true"
+            <v-btn :disabled="!btnIsValid"
               color="primary"
               dark
               class="mb-2"
@@ -142,7 +142,7 @@
                             min-width="auto"
                           >
                             <template v-slot:activator="{ on, attrs }">
-                              <v-text-field 
+                              <v-text-field
                                 v-model="editedItem.start_time"
                                 label="开始日期"
                                 prepend-icon="event"
@@ -314,29 +314,30 @@
       itemIsValid: true,
       btnIsValid: true,
       search: '',
+
       headers: [
         {
           text: '相机型号',
           align: 'center',
           sortable: false,
-          value: 'cam_model',
+          value: 'cam_model',                  
         },
-        { text: 'PID', value: 'pid', align: 'center'  },
-        { text: 'VID', value: 'vid', align: 'center'  },
-        { text: 'Manufacturer', value: 'manufacturer', align: 'center'  },
-        { text: 'ProductInfo', value: 'product_info', align: 'center'  },
-        { text: '序列号', value: 'serial_num', align: 'center'  },
-        { text: 'ExSerialNumber', value: 'ex_serial_num', align: 'center'  },
-        { text: '订单号', value: 'order_num', align: 'center'  },
-        { text: '手机号码', value: 'phone_num', align: 'center'  },        
+        { text: 'PID', value: 'pid', align: 'center' },
+        { text: 'VID', value: 'vid', align: 'center'},
+        { text: 'Manufacturer', value: 'manufacturer', align: 'center'},
+        { text: 'ProductInfo', value: 'product_info', align: 'center'},
+        { text: '序列号', value: 'serial_num', align: 'center'},
+        { text: 'ExSerialNumber', value: 'ex_serial_num', align: 'center'},
+        { text: '订单号', value: 'order_num', align: 'center'},
+        { text: '手机号码', value: 'phone_num', align: 'center'},        
         // { text: 'UID', value: 'uid' },
-        { text: '开始日期', value: 'start_time', align: 'center'  },     
+        { text: '开始日期', value: 'start_time', align: 'center'},     
         // { text: '开始小时', value: 'start_hour' },   
-        { text: '结束日期', value: 'end_time', align: 'center'  },
+        { text: '结束日期', value: 'end_time', align: 'center'},
         // { text: '结束小时', value: 'end_hour' },        
         // { text: '客户姓名', value: 'client_name' },
-        { text: '状态', value: 'remarks', align: 'center'  },
-        { text: '作用', value: 'actions', sortable: false, align: 'center'  },
+        { text: '状态', value: 'remarks', align: 'center'},
+        { text: '作用', value: 'actions', sortable: false, align: 'center', width: '100px' },
       ],
       // start_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       // end_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -409,7 +410,7 @@
       async initialize () {
         console.log("User Session  ====  ", this.$store.state.userLevel)        
 
-        await axios.post('/apis/camera_list/reg_req_list')
+        await axios.post('/apis/camera_list/trial_list')
         .then(res => {
           console.log('response ====', res.data)
           var i;
@@ -448,6 +449,7 @@
               emonth = (edate.getMonth()+1);
             }
             var edateString = edate.getFullYear() +"-"+ emonth +"-"+ eday
+
 
             let newItem = {
               cam_model: res.data[i].cam_model,

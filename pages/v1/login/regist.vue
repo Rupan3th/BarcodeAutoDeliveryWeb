@@ -18,7 +18,7 @@
                     </v-card-text>
                     <v-card-actions>                        
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" @click="login">
+                        <v-btn color="primary" @click="regist">
                             注册
                         </v-btn>
                     </v-card-actions>
@@ -145,6 +145,40 @@ export default {
                 console.log("成功") 
                 return true 
             } 
+        },
+
+        async regist () {
+            let newItem = {
+                    id: this.frmId,
+                    name: this.frmName,
+                    phone_num: this.frmPhone,
+                    company: this.frmCompany,
+                    job_title: this.frmJob,
+                    pw: this.frmPw,
+                    level: 2
+                    }
+            if( newItem.id != '' && 
+                newItem.name != '' && 
+                newItem.phone_num != '' && 
+                newItem.company != '' && 
+                newItem.job_title != '' && 
+                newItem.pw != '')  {
+                this.$axios.post('/apis/users/insert_new', newItem)
+                    .then(res => {
+                        alert("success regist") 
+                        console.log('success regist')
+                        
+                        this.itemIsValid = false
+                        this.title_txt = '管理员登录'
+                        this.btn_lavel = '登录'
+                        this.opt_txt = "Go to regist"
+                        })
+                    .catch(err => {
+                        alert('err ====', err) 
+                            console.log('err ====', err)
+                        })
+                }
+            
         },
 
     }

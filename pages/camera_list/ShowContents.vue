@@ -19,7 +19,7 @@
 
         <v-spacer></v-spacer>  
       
-        <v-dialog v-model="dialog" max-width="500">      
+        <v-dialog v-model="dialog" max-width="600">      
           <template v-slot:activator="{ on, attrs }">
             <v-btn :disabled="!btnIsValid"
               color="primary"
@@ -38,37 +38,118 @@
             </v-card-title>
             <v-card-text>
               <v-container>
-               
-                  
-                    <v-text-field :disabled="!itemIsValid"
-                      v-model="editedItem.cam_model"
-                      label="相机型号"
-                      prepend-icon="camera"         
-                    ></v-text-field>
-                  
-                    <v-text-field :disabled="!itemIsValid"
-                      v-model="editedItem.phone_num"
-                      label="手机号码"
-                      prepend-icon="phone_android"
-                      maxlength="11"
-                      counter="11"
-                    ></v-text-field>     
+                                 
+                    <v-layout row wrap>                   
+                      <v-flex xs12 sm6>
+                        <v-text-field 
+                            v-model="editedItem.cam_model"
+                            label="相机型号"
+                            prepend-icon="camera"         
+                        ></v-text-field>
+                      </v-flex>  
+                      <v-flex xs12 sm6> 
+                        
+                      </v-flex>
+                    </v-layout>
+                   
 
-                    <v-text-field :disabled="!itemIsValid"
-                      v-model="editedItem.serial_num"
-                      label="序列号"
-                      prepend-icon="pin"
-                    ></v-text-field>
+                    <v-layout row wrap>                   
+                      <v-flex xs12 sm6>
+                        <v-text-field :disabled="!itemIsValid"
+                          v-model="editedItem.pid"
+                          label="PID"
+                          prepend-icon="text_format"
+                        ></v-text-field>
+                      </v-flex>  
+                      <v-flex xs12 sm6> 
+                        <v-text-field :disabled="!itemIsValid"
+                          v-model="editedItem.vid"
+                          label="VID"
+                          prepend-icon="pin"
+                        ></v-text-field>   
+                      </v-flex>
+                    </v-layout>
 
-                    <v-text-field :disabled="!itemIsValid"
-                      v-model="editedItem.uid"
-                      label="UID"
-                      prepend-icon="pin"
-                    ></v-text-field>               
+                    <v-layout row wrap>                   
+                      <v-flex xs12 sm10>
+                        <v-text-field :disabled="!itemIsValid"
+                          v-model="editedItem.manufacturer"
+                          label="Manufacturer"
+                          prepend-icon="precision_manufacturing"
+                        ></v-text-field>
+                      </v-flex>  
+                      <v-flex xs12 sm6> 
+                        
+                      </v-flex>
+                    </v-layout>
+
+                    <v-layout row wrap>                   
+                      <v-flex xs12 sm10>
+                        <v-text-field :disabled="!itemIsValid"
+                          v-model="editedItem.product_info"
+                          label="Product info"
+                          prepend-icon="production_quantity_limits"
+                        ></v-text-field>
+                      </v-flex>  
+                      <v-flex xs12 sm6> 
+                        
+                      </v-flex>
+                    </v-layout>
+
+                    <v-layout row wrap>                   
+                      <v-flex xs12 sm6>
+                        <v-text-field :disabled="!itemIsValid"
+                          v-model="editedItem.serial_num"
+                          label="序列号"
+                          prepend-icon="code"
+                        ></v-text-field>
+                      </v-flex>  
+                      <v-flex xs12 sm6> 
+                        <v-text-field :disabled="!itemIsValid"
+                          v-model="editedItem.ex_serial_num"
+                          label="ExSerialNumber"
+                          prepend-icon="closed_caption"
+                        ></v-text-field>
+                      </v-flex>
+                    </v-layout>
+
+                    <v-layout row wrap>                   
+                      <v-flex xs12 sm6>
+                        <v-text-field :disabled="!itemIsValid"
+                          v-model="editedItem.order_num"
+                          label="订单号"
+                          prepend-icon="local_shipping"                          
+                        ></v-text-field> 
+                      </v-flex>  
+                      <v-flex xs12 sm6> 
+                        <v-text-field 
+                          v-model="editedItem.phone_num"
+                          label="手机号码"
+                          prepend-icon="phone_android"
+                          maxlength="11"
+                          counter="11"
+                        ></v-text-field>
+                      </v-flex>
+                    </v-layout>         
+
+                    <!-- <v-layout row wrap>                   
+                      <v-flex xs12 sm10>
+                        <v-text-field :disabled="!itemIsValid"
+                          v-model="editedItem.uid"
+                          label="UID"
+                          prepend-icon="playlist_add_check"
+                        ></v-text-field>
+                      </v-flex>  
+                      <v-flex xs12 sm6> 
+                        
+                      </v-flex>
+                    </v-layout>         -->
+
+                                   
                     
                     <v-layout row wrap>                   
                       <v-flex xs12 sm6>
-                        <v-menu
+                        <v-menu :disabled="!itemIsValid"
                             v-model="menu1"
                             :close-on-content-click="false"
                             :nudge-right="40"
@@ -93,7 +174,7 @@
                         </v-menu>   
                       </v-flex>  
                       <v-flex xs12 sm6> 
-                        <v-menu
+                        <v-menu :disabled="!itemIsValid"
                             v-model="menu2"
                             :close-on-content-click="false"
                             :nudge-right="40"
@@ -207,34 +288,47 @@
                       </v-flex>   
                     </v-layout>                   -->
                     
-                  
-                    <v-text-field :disabled="!itemIsValid"
-                      v-model="editedItem.client_name"
-                      label="客户名称"
-                      prepend-icon="account_box"
-                    ></v-text-field>
-                  
-                    <v-text-field :disabled="!itemIsValid"
-                      v-model="editedItem.remarks"
-                      label="备注"
-                      prepend-icon="summarize"
-                    ></v-text-field>
-                  
+                    <!-- <v-layout row wrap>                   
+                      <v-flex xs12 sm6>
+                        
+                      </v-flex>  
+                      <v-flex xs12 sm6> 
+                        
+                      </v-flex>
+                    </v-layout> -->
+
+                    <v-layout row wrap>                   
+                      <!-- <v-flex xs12 sm6>
+                        <v-text-field 
+                          v-model="editedItem.client_name"
+                          label="客户姓名"
+                          prepend-icon="account_box"
+                        ></v-text-field>
+                      </v-flex>   -->
+                      <v-flex xs12 sm6> 
+                        <v-text-field :disabled="!itemIsValid"
+                          v-model="editedItem.remarks"
+                          label="状态"
+                          prepend-icon="summarize"
+                        ></v-text-field>
+                      </v-flex>
+                    </v-layout>
+
               </v-container>
             </v-card-text>
 
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
-                color="blue darken-1"
-                text
+                color="primary"
+                dark                
                 @click="close"
               >
                 取消
               </v-btn>
               <v-btn
-                color="blue darken-1"
-                text
+                color="primary"
+                dark
                 @click="save"
               >
                 保存
@@ -248,8 +342,8 @@
             <v-card-title class="text-h5">是否确实要删除此项目？</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">取消</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">确认</v-btn>
+              <v-btn color="primary" text @click="closeDelete">取消</v-btn>
+              <v-btn color="primary" text @click="deleteItemConfirm">确认</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -261,20 +355,27 @@
       :headers="headers"
       :items="desserts"
       :search="search"
-      sort-by="start_time"
+      :pagination.sync="pagination"
       class="elevation-1"
+      rows-per-page-text="每页行数" 
     >
       
       <template slot="items" slot-scope="props" >
           <td>{{ props.item.cam_model }}</td>
-          <td class="text-xs-right">{{ props.item.phone_num }}</td>
+          <td class="text-xs-right">{{ props.item.pid }}</td>
+          <td class="text-xs-right">{{ props.item.vid }}</td>
+          <td class="text-xs-right">{{ props.item.manufacturer }}</td>  
+          <td class="text-xs-right">{{ props.item.product_info }}</td>
           <td class="text-xs-right">{{ props.item.serial_num }}</td>
-          <td class="text-xs-right">{{ props.item.uid }}</td>
+          <td class="text-xs-right">{{ props.item.ex_serial_num }}</td>
+          <td class="text-xs-right">{{ props.item.order_num }}</td>
+          <td class="text-xs-right">{{ props.item.phone_num }}</td>
+          <!-- <td class="text-xs-right">{{ props.item.uid }}</td> -->
           <td class="text-xs-right">{{ props.item.start_time }}</td>
           <!-- <td class="text-xs-right">{{ props.item.start_hour }}</td> -->
           <td class="text-xs-right">{{ props.item.end_time }}</td>
           <!-- <td class="text-xs-right">{{ props.item.end_hour }}</td> -->
-          <td class="text-xs-right">{{ props.item.client_name }}</td>
+          <!-- <td class="text-xs-right">{{ props.item.client_name }}</td> -->
           <td class="text-xs-right">{{ props.item.remarks }}</td>
           <td class="text-xs-right" >    
             <template actions="{ props.item }">
@@ -285,6 +386,7 @@
               >
                 edit
               </v-icon>
+              
               <v-icon :disabled="!btnIsValid"
                 small
                 @click="deleteItem(props.item)"
@@ -314,6 +416,12 @@
 
   export default {
     data: () => ({
+      pagination: {
+          sortBy: 'start_time',
+          descending: true,
+          rowsPerPage: 10
+        },
+
       dialog: false,
       dialogDelete: false,
       formIsValid: false,
@@ -323,20 +431,27 @@
       headers: [
         {
           text: '相机型号',
-          align: 'start',
+          align: 'center',
           sortable: false,
           value: 'cam_model',
+          width: '90px'
         },
-        { text: '手机号码', value: 'phone_num' },
-        { text: '序列号', value: 'serial_num' },
-        { text: 'UID', value: 'uid' },
-        { text: '开始日期', value: 'start_time' },     
+        { text: 'PID', value: 'pid', align: 'center', width: '50px' },
+        { text: 'VID', value: 'vid', align: 'center', width: '50px' },
+        { text: 'Manufacturer', value: 'manufacturer', align: 'center', width: '100px'  },
+        { text: 'ProductInfo', value: 'product_info', align: 'center', width: '150px'  },
+        { text: '序列号', value: 'serial_num', align: 'center', width: '150px'  },
+        { text: 'ExSerialNumber', value: 'ex_serial_num', align: 'center', width: '100px'  },
+        { text: '订单号', value: 'order_num', align: 'center', width: '150px'  },
+        { text: '手机号码', value: 'phone_num', align: 'center', width: '100px'  },        
+        // { text: 'UID', value: 'uid' },
+        { text: '开始日期', value: 'start_time', align: 'center', width: '110px'  },     
         // { text: '开始小时', value: 'start_hour' },   
-        { text: '结束日期', value: 'end_time' },
+        { text: '结束日期', value: 'end_time', align: 'center', width: '110px'  },
         // { text: '结束小时', value: 'end_hour' },        
-        { text: '客户名称', value: 'client_name' },
-        { text: '状态', value: 'remarks' },
-        { text: '行动', value: 'actions', sortable: false },
+        // { text: '客户姓名', value: 'client_name' },
+        { text: '状态', value: 'remarks', align: 'center', width: '120px'  },
+        { text: '作用', value: 'actions', sortable: false, align: 'center', width: '100px'},
       ],
       // start_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       // end_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -352,9 +467,15 @@
       editedItem: {
         idx: '',
         cam_model: '',
-        phone_num: '',
+        pid: '',
+        vid: '',
+        manufacturer: '',
+        product_info: '',
         serial_num: '',
-        uid: '',
+        ex_serial_num: '',
+        order_num: '',
+        phone_num: '',        
+        // uid: '',
         start_time: '',
         // start_hour: '',
         end_time: '',
@@ -365,13 +486,19 @@
       defaultItem: {
         idx: '',
         cam_model: '',
-        phone_num: '',
+        pid: '',
+        vid: '',
+        manufacturer: '',
+        product_info: '',
         serial_num: '',
-        uid: '',
+        ex_serial_num: '',
+        order_num: '',
+        phone_num: '',        
+        // uid: '',
         start_time: '',
         // start_hour: '',
         end_time: '',
-        // end_hour: '',       
+        // end_hour: '',
         client_name: '',
         remarks: '',
       },
@@ -409,15 +536,45 @@
             else { state_active = "试用版" }
 
             var sdate = new Date(res.data[i].start_time);
-            var sdateString = sdate.getFullYear() +"-"+ (sdate.getMonth()+1) +"-"+ sdate.getDate()
+            var sday ="";
+            if(sdate.getDate() < 10) {
+              sday = "0"+ sdate.getDate()
+            }else {
+              sday = sdate.getDate()
+            }
+            var smonth ="";
+            if((sdate.getMonth()+1) < 10){
+              smonth = "0"+ (sdate.getMonth()+1);
+            }else{
+              smonth = (sdate.getMonth()+1);
+            }
+            var sdateString = sdate.getFullYear() +"-"+ smonth +"-"+ sday           
             var edate = new Date(res.data[i].end_time);
-            var edateString = edate.getFullYear() +"-"+ (edate.getMonth()+1) +"-"+ edate.getDate()
+            var eday ="";
+            if(edate.getDate() < 10) {
+              eday = "0"+ edate.getDate()
+            }else {
+              eday = edate.getDate()
+            }
+            var emonth ="";
+            if((edate.getMonth()+1) < 10){
+              emonth = "0"+ (edate.getMonth()+1);
+            }else{
+              emonth = (edate.getMonth()+1);
+            }
+            var edateString = edate.getFullYear() +"-"+ emonth +"-"+ eday
 
             let newItem = {
               cam_model: res.data[i].cam_model,
-              phone_num:  res.data[i].phone_num,
+              pid: res.data[i].pid,
+              vid: res.data[i].vid,
+              manufacturer: res.data[i].manufacturer,
+              product_info: res.data[i].product_info,
               serial_num: res.data[i].serial_num,
-              uid: res.data[i].uid,
+              ex_serial_num: res.data[i].ex_serial_num,
+              order_num: res.data[i].order_num,
+              phone_num:  res.data[i].phone_num,              
+              // uid: res.data[i].uid,
               start_time: sdateString,
               // start_hour: res.data[i].start_hour.toString().substring(0, 5),  
               end_time: edateString,
@@ -507,14 +664,20 @@
       
       async save () {
         if( this.editedItem.cam_model == ''  ||
+            this.editedItem.pid == ''  ||
+            this.editedItem.vid == ''  ||
+            this.editedItem.manufacturer == ''  ||
+            this.editedItem.product_info == ''  ||
+            this.editedItem.order_num == ''  ||
             this.editedItem.phone_num == ''  ||
             this.editedItem.serial_num == ''  ||
-            this.editedItem.uid == ''  ||
+            this.editedItem.ex_serial_num == ''  ||
+            // this.editedItem.uid == ''  ||
             this.editedItem.start_time == ''  ||
             // this.editedItem.start_hour == ''  ||
             this.editedItem.end_time == ''  ||
             // this.editedItem.end_hour == ''  ||            
-            this.editedItem.client_name == ''  ||
+            // this.editedItem.client_name == ''  ||
             this.editedItem.remarks == '' ) this.formIsValid = true
         else{
           if (this.editedIndex > -1) {

@@ -7,11 +7,12 @@ let messageModel = {};
 messageModel.InsertNewRow = (req, callback) => {
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION    
     
-    var sql = 'INSERT INTO messages (cam_model,phone_num,serial_num,uid,send_time,message,image) VALUES("'    
+    var sql = 'INSERT INTO messages (cam_model,order_num,phone_num,ex_serial_num,serial_num,send_time,message,image) VALUES("'    
                 +req.body.cam_model+'","'
+                +req.body.order_num+'","'
                 +req.body.phone_num+'","'
-                +req.body.serial_num+'","'
-                +req.body.uid+'",NOW(),"'
+                +req.body.ex_serial_num+'","'
+                +req.body.serial_num+'",NOW(),"'
                 +req.body.message+'","'                
                 +req.body.image+'")'   
                 
@@ -36,8 +37,8 @@ messageModel.getMessagebySN = (req, callback) => {
     console.log("request get sms === ", req.body)
     
     var sql = 'SELECT  message, send_time FROM messages WHERE phone_num="'   
-                +req.body.phone_num+'" AND serial_num="'
-                +req.body.serial_num+'"'   
+                +req.body.phone_num+'" AND ex_serial_num="'
+                +req.body.ex_serial_num+'"'   
                 
     console.log(sql)
     
@@ -84,7 +85,7 @@ messageModel.getMessageList = (callback) => {
 messageModel.GetIdxSelected = (req, callback) => {
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
     if (conn) {
-        conn.query('SELECT idx FROM messages WHERE cam_model="'+req.body.cam_model+'" AND phone_num="'+req.body.phone_num+'" AND serial_num="'+req.body.serial_num+'" AND message="'+req.body.message+'"',
+        conn.query('SELECT idx FROM messages WHERE order_num="'+req.body.order_num+'" AND phone_num="'+req.body.phone_num+'" AND ex_serial_num="'+req.body.ex_serial_num+'"',
             (err, rows) => {
                 if (err) {
                     throw err

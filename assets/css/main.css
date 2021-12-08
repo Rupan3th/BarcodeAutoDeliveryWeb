@@ -1,7 +1,18 @@
 table.v-table thead th {
+    background-color: rgb(253, 182, 94);
     font-size: 14px !important;
+    border: 1px solid gold;
 }
 
 table.v-table tbody td {
     font-size: 14px !important;
+    border: 1px solid rgb(238, 237, 237);
+}
+
+table.v-table tbody tr.odd{ background-color: yellow }
+table.v-table tbody tr.even { background-color: cyan }
+
+progress{
+    width: 370px;
+    height: 25px;
 }

@@ -5,6 +5,23 @@ import dbconfig  from "../config/database";
 
 let camera_listModel = {};
 
+camera_listModel.getTrialList = (callback) => {
+    const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
+    if (conn) {
+        conn.query('SELECT * FROM cameralist WHERE allow IS NULL ORDER BY idx DESC ',
+            (err, rows) => {
+                if (err) {
+                    throw err
+                }
+                else {
+                    callback(null, rows);
+                    conn.end()
+                }
+            }
+        )
+    }
+}
+
 camera_listModel.getRegReqList = (callback) => {
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
     if (conn) {
@@ -59,26 +76,35 @@ camera_listModel.getCameraList = (callback) => {
 
 camera_listModel.InsertNewRow = (req, callback) => {
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
-    var sql = 'INSERT INTO cameralist (cam_model,phone_num,uid,start_time,start_hour,end_time,end_hour,serial_num,client_name,remarks) VALUES("'    
+    var sql = 'INSERT INTO cameralist (cam_model,pid,vid,manufacturer,product_info,phone_num,order_num,start_time,start_hour,end_time,end_hour,serial_num,ex_serial_num,client_name,remarks) VALUES("'    
                 +req.body.cam_model+'","'
+                +req.body.pid+'","'
+                +req.body.vid+'","'
+                +req.body.manufacturer+'","'
+                +req.body.product_info+'","'
                 +req.body.phone_num+'","'
-                +req.body.uid+'","'
+                +req.body.order_num+'","'               
                 +req.body.start_time+'","'
                 +req.body.start_hour+'","'
                 +req.body.end_time+'","'
                 +req.body.end_hour+'","'
                 +req.body.serial_num+'","'
-                +req.body.client_name+'","'
+                +req.body.ex_serial_num+'","不确定","'
                 +req.body.remarks+'")'
     if(req.body.client_name == null || req.body.remarks == null){
-        sql = 'INSERT INTO cameralist (cam_model,phone_num,uid,start_time,start_hour,end_time,end_hour,serial_num,client_name,remarks) VALUES("'    
+        sql = 'INSERT INTO cameralist (cam_model,pid,vid,manufacturer,product_info,phone_num,order_num,start_time,start_hour,end_time,end_hour,ex_serial_num,serial_num,client_name,remarks) VALUES("'    
                 +req.body.cam_model+'","'
+                +req.body.pid+'","'
+                +req.body.vid+'","'
+                +req.body.manufacturer+'","'
+                +req.body.product_info+'","'
                 +req.body.phone_num+'","'
-                +req.body.uid+'","'
+                +req.body.order_num+'","'
                 +req.body.start_time+'","'
                 +req.body.start_hour+'","'
                 +req.body.end_time+'","'
                 +req.body.end_hour+'","'
+                +req.body.ex_serial_num+'","'
                 +req.body.serial_num+'","不确定","试用版")'
     }
     
@@ -106,7 +132,7 @@ camera_listModel.InsertNewPhoneSN = (req, callback) => {
     var effective_date = Eff_date.getFullYear()+'-'+(Eff_date.getMonth()+1)+'-'+Eff_date.getDate();
     var effective_time = Eff_date.getHours() + ":" + Eff_date.getMinutes();
 
-    var sql = 'SELECT idx FROM cameralist WHERE serial_num="'+req.body.serial_num+'" AND uid = "'+req.body.uid+'"'    
+    var sql = 'SELECT idx FROM cameralist WHERE ex_serial_num="'+req.body.ex_serial_num+'" AND order_num = "'+req.body.order_num+'"'    
     console.log('sql === ', sql)
     if (conn) {
         conn.query(sql, (err, rows) => {
@@ -119,13 +145,18 @@ camera_listModel.InsertNewPhoneSN = (req, callback) => {
                         callback(null, rows);
                         conn.end()
                     }else{
-                        sql = 'INSERT INTO cameralist (cam_model,phone_num,uid,start_time,start_hour,end_time,end_hour,serial_num,client_name,remarks) VALUES("不确定","'
+                        sql = 'INSERT INTO cameralist (cam_model,pid,vid,manufacturer,product_info,phone_num,order_num,start_time,start_hour,end_time,end_hour,ex_serial_num,serial_num,client_name,remarks) VALUES("不确定","'
+                                    +req.body.pid+'","'
+                                    +req.body.vid+'","'
+                                    +req.body.manufacturer+'","'
+                                    +req.body.product_info+'","'
                                     +req.body.phone_num+'","'
-                                    +req.body.uid+'","'
+                                    +req.body.order_num+'","'
                                     +current_date+'","'
                                     +current_time+'","'
                                     +effective_date+'","'
                                     +effective_time+'","'
+                                    +req.body.ex_serial_num+'","'
                                     +req.body.serial_num+'","不确定","试用版")'
                         
                         console.log('sql === ', sql)
@@ -179,7 +210,7 @@ camera_listModel.InsertNewPhoneSN = (req, callback) => {
 camera_listModel.GetIdxSelected = (req, callback) => {
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
     if (conn) {
-        conn.query('SELECT idx FROM cameralist WHERE cam_model="'+req.body.cam_model+'" AND phone_num="'+req.body.phone_num+'" AND serial_num="'+req.body.serial_num+'"',
+        conn.query('SELECT idx FROM cameralist WHERE order_num="'+req.body.order_num+'" AND phone_num="'+req.body.phone_num+'" AND serial_num="'+req.body.serial_num+'"',
             (err, rows) => {
                 if (err) {
                     throw err
@@ -197,7 +228,7 @@ camera_listModel.GetIdxSelected = (req, callback) => {
 camera_listModel.GetCamByPhoneAndSn = (req, callback) => {
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
     if (conn) {
-        conn.query('SELECT * FROM cameralist WHERE phone_num="'+req.body.phone_num+'" AND serial_num="'+req.body.serial_num+'"',
+        conn.query('SELECT * FROM cameralist WHERE phone_num="'+req.body.phone_num+'" AND ex_serial_num="'+req.body.ex_serial_num+'" AND order_num="'+req.body.order_num+'"',
             (err, rows) => {
                 if (err) {
                     throw err
@@ -213,26 +244,31 @@ camera_listModel.GetCamByPhoneAndSn = (req, callback) => {
 
 camera_listModel.UpdateSelectedRow = (req, callback) => {
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
-    var sql = 'UPDATE cameralist SET cam_model="'+req.body.cam_model+'", phone_num="'
-                                                +req.body.phone_num+'", uid="'
-                                                +req.body.uid+'", start_time="'
-                                                +req.body.start_time+'", start_hour="'
-                                                +req.body.start_hour+'", end_time="'
-                                                +req.body.end_time+'", end_hour="'
-                                                +req.body.end_hour+'", serial_num="'
-                                                +req.body.serial_num+'", client_name="'
-                                                +req.body.client_name+'", remarks="'
+    var sql = 'UPDATE cameralist SET cam_model="'+req.body.cam_model+'", pid="'
+                                                +req.body.pid+'", vid="'
+                                                +req.body.vid+'", manufacturer="'
+                                                +req.body.manufacturer+'",  product_info="'
+                                                +req.body.product_info+'", serial_num="'
+                                                +req.body.serial_num+'", ex_serial_num="'
+                                                +req.body.ex_serial_num+'", order_num="'
+                                                +req.body.order_num+'", phone_num="'
+                                                +req.body.phone_num+'", start_time="'
+                                                +req.body.start_time+'", end_time="'
+                                                +req.body.end_time+'", remarks="'
                                                 +req.body.remarks+'" WHERE idx="'
                                                 +req.body.idx+'"'
-    if(req.body.client_name == null || req.body.remarks == null){
-        sql = 'UPDATE cameralist SET cam_model="'+req.body.cam_model+'", phone_num="'
-                                                +req.body.phone_num+'", uid="'
-                                                +req.body.uid+'", start_time="'
-                                                +req.body.start_time+'", start_hour="'
-                                                +req.body.start_hour+'", end_time="'
-                                                +req.body.end_time+'", end_hour="'
-                                                +req.body.end_hour+'", serial_num="'
-                                                +req.body.serial_num+'" WHERE idx="'
+    if(req.body.remarks == null){
+        sql = 'UPDATE cameralist SET cam_model="'+req.body.cam_model+'", pid="'
+                                                +req.body.pid+'", vid="'
+                                                +req.body.vid+'", manufacturer="'
+                                                +req.body.manufacturer+'",  product_info="'
+                                                +req.body.product_info+'", serial_num="'
+                                                +req.body.serial_num+'", ex_serial_num="'
+                                                +req.body.ex_serial_num+'", order_num="'
+                                                +req.body.order_num+'", phone_num="'
+                                                +req.body.phone_num+'", start_time="'
+                                                +req.body.start_time+'", end_time="'
+                                                +req.body.end_time+'" WHERE idx="'
                                                 +req.body.idx+'"'
     }
     
@@ -270,8 +306,8 @@ camera_listModel.AllowOrderRow = (req, callback) => {
 
 camera_listModel.updatePhoneNum = (req, callback) => {
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
-    var sql = 'UPDATE cameralist SET phone_num="'+req.body.new_phone_num+'" WHERE serial_num="'
-                                                +req.body.serial_num+'" AND phone_num="'+req.body.old_phone_num+'"'
+    var sql = 'UPDATE cameralist SET phone_num="'+req.body.new_phone_num+'" WHERE ex_serial_num="'
+                                                +req.body.ex_serial_num+'" AND phone_num="'+req.body.old_phone_num+'"'
     
     if (conn) {
         conn.query(sql, (err, rows) => {
@@ -289,8 +325,8 @@ camera_listModel.updatePhoneNum = (req, callback) => {
 
 camera_listModel.ReqActivation = (req, callback) => {
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
-    var sql = 'UPDATE cameralist SET req_time="'+req.body.req_time+'", allow = "1" WHERE serial_num="'
-                                                +req.body.serial_num+'" AND phone_num="'+req.body.phone_num+'" AND uid="'+req.body.uid+'"'
+    var sql = 'UPDATE cameralist SET req_time="'+req.body.req_time+'", allow = "1" WHERE ex_serial_num="'
+                                                +req.body.ex_serial_num+'" AND phone_num="'+req.body.phone_num+'" AND order_num="'+req.body.order_num+'"'
     
     if (conn) {
         conn.query(sql, (err, rows) => {

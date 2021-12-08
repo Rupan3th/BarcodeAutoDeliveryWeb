@@ -29,6 +29,14 @@ router.post('/get_users', function (req, res, next) {
     });    
 })
 
+/* GET me. */
+router.post('/get_me', function (req, res, next) {
+    console.log('----req.body === ', req.body)
+    userModel.getMe(req, (err, data) => {
+        res.status(200).json(data);
+    });    
+})
+
 /* Get idx Selected item db concect */
 router.post('/get_idx_selected', function (req, res, next) {
     userModel.GetIdxSelected(req, (err, data) => {
@@ -48,6 +56,15 @@ router.post('/insert_new', function (req, res, next) {
 /* Updete Selected Item */
 router.post('/update_row', function (req, res, next) {
     userModel.UpdateSelectedRow(req, (err, data) => {
+        res.status(200).json(data);
+    });
+    
+})
+
+
+/* Updete password */
+router.post('/update_password', function (req, res, next) {
+    userModel.UpdatePassword(req, (err, data) => {
         res.status(200).json(data);
     });
     

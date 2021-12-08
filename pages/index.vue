@@ -6,7 +6,7 @@
         &#8220;条码识别系统&#8221;
         <footer>
           <small>
-            <em>&mdash;John Johnson&mdash;</em>
+            
           </small>
         </footer>
       </blockquote>

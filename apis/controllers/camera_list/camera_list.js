@@ -11,6 +11,14 @@ router.post('/camera_list', function (req, res, next) {
     
 })
 
+/* GET trial list. */
+router.post('/trial_list', function (req, res, next) {
+    camera_listModel.getTrialList((err, data) => {
+        res.status(200).json(data);
+    });
+    
+})
+
 /* GET Registration request list. */
 router.post('/reg_req_list', function (req, res, next) {
     camera_listModel.getRegReqList((err, data) => {
