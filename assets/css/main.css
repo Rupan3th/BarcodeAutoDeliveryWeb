@@ -1,3 +1,19 @@
+/* .v-toolbar_title {
+    font-size: 26px !important;
+    color: darkblue;
+  } */
+
+.mytitle {
+    font-size: 1.5rem !important;
+    /* font-weight: bold; */
+    color: #034aff;
+}
+
+.mysearchfield{
+    max-width: 400px;   
+}
+  
+
 table.v-table thead th {
     background-color: rgb(253, 182, 94);
     font-size: 14px !important;
@@ -9,6 +25,13 @@ table.v-table tbody td {
     border: 1px solid rgb(238, 237, 237);
 }
 
+.mytable_tr.tr.odd{
+    background-color: yellow
+}
+
+.mytable_tr.tr.even{
+    background-color: cyan
+}
 table.v-table tbody tr.odd{ background-color: yellow }
 table.v-table tbody tr.even { background-color: cyan }
 

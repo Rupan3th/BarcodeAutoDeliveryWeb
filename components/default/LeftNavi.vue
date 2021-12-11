@@ -111,10 +111,10 @@ export default {
       {    
         text: '推广管理',
         icon: 'devices_other',        
-        children: [
-          { icon: 'receipt_long', text: '信息列表', to: '/promotion/MessageList'  },
+        children: [          
           // { icon: 'perm_media', text: '图片信息', to: '/promotion/PhotoInfo'  },
-          { icon: 'edit_notifications', text: '发送消息', to: '/promotion/TextInfo' }
+          { icon: 'edit_notifications', text: '发送消息', to: '/promotion/TextInfo' },
+          { icon: 'receipt_long', text: '信息列表', to: '/promotion/MessageList'  }
         ]
       },
       // {    

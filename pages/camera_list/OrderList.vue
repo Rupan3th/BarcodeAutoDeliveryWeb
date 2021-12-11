@@ -2,22 +2,27 @@
   <div>
     <template>     
       <v-toolbar flat >
-        <v-toolbar-title>订单清单</v-toolbar-title>
+        <v-toolbar-title class="mytitle">订单清单
+          <v-btn flat icon color="green" @click="refresh_table()"         >
+            <v-icon large>cached</v-icon>
+          </v-btn>   
+        </v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
           vertical
         ></v-divider>
         
-        <v-text-field
+        <v-text-field   
+          class="mysearchfield"             
           v-model="search"
           append-icon='search'
           label="搜索"
           single-line
           hide-details
         ></v-text-field>  
-
-        <v-spacer></v-spacer>  
+       
+        <v-spacer></v-spacer> 
       
         <v-dialog v-model="dialog" max-width="500">      
           <template v-slot:activator="{ on, attrs }">
@@ -220,24 +225,29 @@
           <!-- <td class="text-xs-right">{{ props.item.start_hour }}</td> -->
           <td class="text-xs-right">{{ props.item.req_time }}</td>
           <!-- <td class="text-xs-right">{{ props.item.end_hour }}</td>  -->
-          <td class="text-xs-right" >    
-            <template actions="{ props.item }">
-              <v-icon :disabled="!btnIsValid"
-                small
-                class="mr-2"
-                @click="editItem(props.item)"
-              >
-                done_outline
-              </v-icon>
-              <v-icon :disabled="!btnIsValid"
-                small
-                @click="deleteItem(props.item)"
-              >
-                delete
-              </v-icon>
-            </template>
-            
+          <td style="text-align: center;  padding-left: 5px; max-width: 70px">    
+            <template actions="{ props.item }">    
+              <v-layout row wrap>                   
+                <v-flex xs12 sm6>
+                    <v-btn 
+                      flat icon color="green" 
+                      @click="editItem(props.item)"
+                    >
+                        <v-icon small >done_outline</v-icon>
+                    </v-btn>                        
+                </v-flex>  
+                <v-flex xs12 sm6> 
+                    <v-btn :disabled="!btnIsValid"
+                      flat icon color="red" 
+                      @click="deleteItem(props.item)"
+                    >
+                        <v-icon small>delete</v-icon>
+                    </v-btn>
+                </v-flex>
+              </v-layout>                 
+            </template>             
           </td>
+          
       </template>
       
       <template v-slot:no-data>
@@ -401,6 +411,11 @@
         .catch(err => {
           console.log('err ====', err)
         }) 
+      },
+
+      async refresh_table(){
+        this.desserts= [];
+        this.initialize();
       },
 
       async editItem (item) {

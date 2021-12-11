@@ -43,5 +43,13 @@ router.post('/delete_selected', function (req, res, next) {
     
 })
 
+/* Delete Selected Item */
+router.post('/delete_multi_selected', function (req, res, next) {
+    messageModel.DeleteSelectedRows(req, (err, data) => {
+        res.status(200).json(data);
+    });
+    
+})
+
 
 export default router

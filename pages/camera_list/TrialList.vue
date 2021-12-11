@@ -2,14 +2,19 @@
   <div>
     <template>     
       <v-toolbar flat >
-        <v-toolbar-title>试用版单</v-toolbar-title>
+        <v-toolbar-title class="mytitle">试用版单
+          <v-btn flat icon color="green" @click="refresh_table()"         >
+            <v-icon large>cached</v-icon>
+          </v-btn>          
+        </v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
           vertical
         ></v-divider>
         
-        <v-text-field
+        <v-text-field      
+          class="mysearchfield"
           v-model="search"
           append-icon='search'
           label="搜索"
@@ -252,7 +257,7 @@
           <td class="text-xs-right">{{ props.item.pid }}</td>
           <td class="text-xs-right">{{ props.item.vid }}</td>
           <td class="text-xs-right">{{ props.item.manufacturer }}</td>  
-          <td class="text-xs-right">{{ props.item.product_info }}</td>
+          <td style="text-align: right; padding-left: 0px; min-width: 175px">{{ props.item.product_info }}</td>
           <td class="text-xs-right">{{ props.item.serial_num }}</td>
           <td class="text-xs-right">{{ props.item.ex_serial_num }}</td>
           <td class="text-xs-right">{{ props.item.order_num }}</td>
@@ -264,23 +269,27 @@
           <!-- <td class="text-xs-right">{{ props.item.end_hour }}</td> -->
           <!-- <td class="text-xs-right">{{ props.item.client_name }}</td> -->
           <td class="text-xs-right">{{ props.item.remarks }}</td>
-          <td class="text-xs-right" >    
-            <template actions="{ props.item }">
-              <v-icon 
-                small
-                class="mr-2"
-                @click="editItem(props.item)"
-              >
-                edit
-              </v-icon>
-              <v-icon :disabled="!btnIsValid"
-                small
-                @click="deleteItem(props.item)"
-              >
-                delete
-              </v-icon>
-            </template>
-            
+          <td style="text-align: center;  padding-left: 0px; max-width: 70px">    
+            <template actions="{ props.item }">    
+              <v-layout row wrap>                   
+                <v-flex xs12 sm6>
+                    <v-btn 
+                      flat icon color="green" 
+                      @click="editItem(props.item)"
+                    >
+                        <v-icon small >border_color</v-icon>
+                    </v-btn>                        
+                </v-flex>  
+                <v-flex xs12 sm6> 
+                    <v-btn :disabled="!btnIsValid"
+                      flat icon color="red" 
+                      @click="deleteItem(props.item)"
+                    >
+                        <v-icon small>delete</v-icon>
+                    </v-btn>
+                </v-flex>
+              </v-layout>                 
+            </template>             
           </td>
       </template>
       
@@ -337,7 +346,7 @@
         // { text: '结束小时', value: 'end_hour' },        
         // { text: '客户姓名', value: 'client_name' },
         { text: '状态', value: 'remarks', align: 'center'},
-        { text: '作用', value: 'actions', sortable: false, align: 'center', width: '100px' },
+        { text: '作用', value: 'actions', sortable: false, align: 'center'},
       ],
       // start_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       // end_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -477,6 +486,11 @@
         .catch(err => {
           console.log('err ====', err)
         }) 
+      },
+
+      async refresh_table(){
+        this.desserts= [];
+        this.initialize();
       },
       
       async editItem (item) {

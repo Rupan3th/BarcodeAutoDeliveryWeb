@@ -2,7 +2,11 @@
   <div>
     <template>     
       <v-toolbar flat >
-        <v-toolbar-title>账号管理</v-toolbar-title>
+        <v-toolbar-title class="mytitle">账号管理
+          <v-btn flat icon color="green" @click="refresh_table()"         >
+            <v-icon large>cached</v-icon>
+          </v-btn> 
+        </v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -10,6 +14,7 @@
         ></v-divider>
         
         <v-text-field
+          class="mysearchfield"
           v-model="search"
           append-icon='search'
           label="搜索"
@@ -145,22 +150,27 @@
           <td class="text-xs-right">{{ props.item.company }}</td>
           <td class="text-xs-right">{{ props.item.job_title }}</td>
           <td class="text-xs-right">{{ props.item.pw }}</td>
-          <td class="text-xs-right">{{ props.item.level }}</td>
-          <td class="text-xs-right" >    
+          <td style="text-align: right; padding-left: 0px;  max-width: 50px">{{ props.item.level }}</td>
+          <td style="text-align: center;  padding-left: 0px; max-width: 70px" >    
             <template actions="{ props.item }">
-              <v-icon
-                small
-                class="mr-2"
-                @click="editItem(props.item)"
-              >
-                edit
-              </v-icon>
-              <v-icon :disabled="!btnIsValid"
-                small
-                @click="deleteItem(props.item)"
-              >
-                delete
-              </v-icon>
+              <v-layout row wrap>                   
+                <v-flex xs12 sm6>
+                    <v-btn 
+                      flat icon color="green" 
+                      @click="editItem(props.item)"
+                    >
+                        <v-icon small >border_color</v-icon>
+                    </v-btn>                        
+                </v-flex>  
+                <v-flex xs12 sm6> 
+                    <v-btn :disabled="!btnIsValid"
+                      flat icon color="red" 
+                      @click="deleteItem(props.item)"
+                    >
+                        <v-icon small>delete</v-icon>
+                    </v-btn>
+                </v-flex>
+              </v-layout>   
             </template>
             
           </td>
@@ -210,8 +220,8 @@
         { text: '公司名', value: 'company', align: 'center' },
         { text: '职位', value: 'job_title', align: 'center' },
         { text: '密码', value: 'pw', align: 'center'},
-        { text: '级别', value: 'level', align: 'center', width: '100px' },
-        { text: '作用', value: 'actions', sortable: false, align: 'center', width: '100px' },
+        { text: '级别', value: 'level', align: 'center' },
+        { text: '作用', value: 'actions', sortable: false, align: 'center' },
       ],    
 
       desserts: [],
@@ -288,6 +298,11 @@
         .catch(err => {
           console.log('err ====', err)
         }) 
+      },
+
+      async refresh_table(){
+        this.desserts= [];
+        this.initialize();
       },
 
       async editItem (item) {

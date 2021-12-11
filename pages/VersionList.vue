@@ -2,7 +2,11 @@
   <div>
     <template>     
       <v-toolbar flat >
-        <v-toolbar-title>版本信息</v-toolbar-title>
+        <v-toolbar-title class="mytitle">版本信息
+          <v-btn flat icon color="green" @click="refresh_table()"         >
+            <v-icon large>cached</v-icon>
+          </v-btn> 
+        </v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -118,13 +122,13 @@
           <td class="text-xs-right">{{ props.item.file_name }}</td>
           <td class="text-xs-right" >    
             <template actions="{ props.item }">
-              <v-icon 
-                small
-                class="mr-2"
-                @click="downloading(props.item)"
+              <v-btn 
+                  flat icon color="green" 
+                  @click="downloading(props.item)"
               >
-                download
-              </v-icon>
+                  <v-icon small>download</v-icon>
+              </v-btn>
+              
               
             </template>
           </td>
@@ -225,8 +229,7 @@
             this.dialog = true              
         },
 
-        async initialize () {
-            this.desserts = [];
+        async initialize () {            
             console.log("User Session  ====  ", this.$store.state.userLevel)        
 
             await axios.post('/apis/upload/getListFiles')
@@ -266,7 +269,12 @@
                 .catch(err => {
                     console.log('err ====', err)
                 }) 
-        },      
+        },    
+        
+        async refresh_table(){
+          this.desserts= [];
+          this.initialize();
+        },
 
         async downloading (item) {            
             this.editedIndex = this.desserts.indexOf(item)
@@ -307,7 +315,8 @@
                             onUploadProgress: function( progressEvent ) {
                                 this.uploadPercentage = parseInt( Math.round( ( progressEvent.loaded / progressEvent.total ) * 100 ) );
                                 if(this.uploadPercentage == 100){
-                                    this.close();                                   
+                                    this.close();          
+                                    this.desserts = [];                         
                                     this.initialize();      
                                     this.uploadPercentage = 0;              
                                 }

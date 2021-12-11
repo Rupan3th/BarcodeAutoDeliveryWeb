@@ -85,7 +85,7 @@ messageModel.getMessageList = (callback) => {
 messageModel.GetIdxSelected = (req, callback) => {
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
     if (conn) {
-        conn.query('SELECT idx FROM messages WHERE order_num="'+req.body.order_num+'" AND phone_num="'+req.body.phone_num+'" AND ex_serial_num="'+req.body.ex_serial_num+'"',
+        conn.query('SELECT idx FROM messages WHERE message="'+req.body.message+'" AND order_num="'+req.body.order_num+'" AND phone_num="'+req.body.phone_num+'" AND ex_serial_num="'+req.body.ex_serial_num+'"',
             (err, rows) => {
                 if (err) {
                     throw err
@@ -103,6 +103,26 @@ messageModel.DeleteSelectedRow = (req, callback) => {
     const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
     if (conn) {
         conn.query('DELETE FROM messages WHERE idx="'+req.body.idx+'"',
+            (err, rows) => {
+                if (err) {
+                    throw err
+                }
+                else {
+                    callback(null, rows);
+                    conn.end()
+                }
+            }
+        )
+    }
+}
+
+
+messageModel.DeleteSelectedRows = (req, callback) => {
+    const conn = mysql.createConnection(dbconfig.connection);//CREAMOS LA CONECCION
+    var sql = 'DELETE FROM messages WHERE idx IN ('+req.body.idxs+')'
+    console.log(sql)
+    if (conn) {        
+        conn.query(sql,
             (err, rows) => {
                 if (err) {
                     throw err

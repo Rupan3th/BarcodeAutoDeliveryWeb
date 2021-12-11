@@ -2,7 +2,11 @@
   <div>
     <template>     
       <v-toolbar flat >
-        <v-toolbar-title>文字信息</v-toolbar-title>
+        <v-toolbar-title class="mytitle">文字信息
+          <v-btn flat icon color="green" @click="refresh_table()"         >
+            <v-icon large>cached</v-icon>
+          </v-btn> 
+        </v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -10,6 +14,7 @@
         ></v-divider>
         
         <v-text-field
+          class="mysearchfield"
           v-model="search"
           append-icon='search'
           label="搜索"
@@ -137,8 +142,8 @@
           <td class="text-xs-right">{{ props.item.order_num }}</td>
           <td class="text-xs-right">{{ props.item.phone_num }}</td>
           <td class="text-xs-right">{{ props.item.end_time }}</td>
-          <td class="text-xs-right">{{ props.item.remarks }}</td>
-          <td class="text-xs-right" >    
+          <td style="text-align: right; padding-left: 0px; min-width: 100px">{{ props.item.remarks }}</td>
+          <td style="text-align: center;  max-width: 60px"  >    
             <template selected="{ props.item }">
               <div style="margin-top: 12px; margin-bottom: -12px;">                
                 <v-checkbox
@@ -308,6 +313,11 @@
         }) 
       },
 
+      async refresh_table(){
+        this.desserts= [];
+        this.initialize();
+      },
+
       editMessage(){        
         this.push_addresses = [];
         for(var i=0; i<this.desserts.length; i++) {
@@ -337,7 +347,7 @@
           this.dialog = true
         }
         
-        else alert("请选择要发送push的项目。")
+        else alert("请选择要发送信件的项目。")
       },
 
       async editItem (item) {

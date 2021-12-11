@@ -2,7 +2,11 @@
   <div>
     <template>     
       <v-toolbar flat >
-        <v-toolbar-title>设备清单</v-toolbar-title>
+        <v-toolbar-title class="mytitle">设备清单
+          <v-btn flat icon color="green" @click="refresh_table()"         >
+            <v-icon large>cached</v-icon>
+          </v-btn> 
+        </v-toolbar-title>
         <v-divider
           class="mx-4"
           inset
@@ -10,6 +14,7 @@
         ></v-divider>
         
         <v-text-field
+          class="mysearchfield"
           v-model="search"
           append-icon='search'
           label="搜索"
@@ -365,8 +370,8 @@
           <td class="text-xs-right">{{ props.item.pid }}</td>
           <td class="text-xs-right">{{ props.item.vid }}</td>
           <td class="text-xs-right">{{ props.item.manufacturer }}</td>  
-          <td class="text-xs-right">{{ props.item.product_info }}</td>
-          <td class="text-xs-right">{{ props.item.serial_num }}</td>
+          <td style="text-align: right; padding-left: 0px; min-width: 225px">{{ props.item.product_info }}</td>
+          <td style="text-align: right; padding-left: 0px; min-width: 225px">{{ props.item.serial_num }}</td>
           <td class="text-xs-right">{{ props.item.ex_serial_num }}</td>
           <td class="text-xs-right">{{ props.item.order_num }}</td>
           <td class="text-xs-right">{{ props.item.phone_num }}</td>
@@ -376,23 +381,27 @@
           <td class="text-xs-right">{{ props.item.end_time }}</td>
           <!-- <td class="text-xs-right">{{ props.item.end_hour }}</td> -->
           <!-- <td class="text-xs-right">{{ props.item.client_name }}</td> -->
-          <td class="text-xs-right">{{ props.item.remarks }}</td>
-          <td class="text-xs-right" >    
+          <td style="text-align: right; padding-left: 0px; min-width: 100px">{{ props.item.remarks }}</td>
+          <td style="text-align: center;  padding-left: 0px; max-width: 70px" >    
             <template actions="{ props.item }">
-              <v-icon
-                small
-                class="mr-2"
-                @click="editItem(props.item)"
-              >
-                edit
-              </v-icon>
-              
-              <v-icon :disabled="!btnIsValid"
-                small
-                @click="deleteItem(props.item)"
-              >
-                delete
-              </v-icon>
+              <v-layout row wrap>                   
+                <v-flex xs12 sm6>
+                    <v-btn 
+                      flat icon color="green" 
+                      @click="editItem(props.item)"
+                    >
+                        <v-icon small >border_color</v-icon>
+                    </v-btn>                        
+                </v-flex>  
+                <v-flex xs12 sm6> 
+                    <v-btn :disabled="!btnIsValid"
+                      flat icon color="red" 
+                      @click="deleteItem(props.item)"
+                    >
+                        <v-icon small>delete</v-icon>
+                    </v-btn>
+                </v-flex>
+              </v-layout>          
             </template>
             
           </td>
@@ -590,6 +599,11 @@
         .catch(err => {
           console.log('err ====', err)
         }) 
+      },
+
+      async refresh_table(){
+        this.desserts= [];
+        this.initialize();
       },
       
       async editItem (item) {
