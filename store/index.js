@@ -27,7 +27,7 @@ export const mutations = {
   SESSION: function (state, user) {   
     state.userLevel = user
   },
-  LOGOUT: function () {
+  LOGOUT: function () {    
     state.authUser = null
   },
   SET_USER: function (state, user) {
@@ -55,11 +55,30 @@ export const actions = {
     if (!data.id) {
       throw new Error('登录失败.')
     }
+    
     commit('LOGIN', data.id)
     commit('SESSION', data.level)
+    
+    this.$cookies.set('user_id', data.id, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7
+    })
+
+    this.$cookies.set('user_level', data.level, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7
+    })
+    
   },
-  async logout({ commit }) {
-    await axios.post('/apis/logout').then(() => commit('LOGOUT'))
+  async logout({ commit }) {  
+    // this.$cookies.remove('user_id')
+    await axios.post('/apis/logout').then(() => {
+      commit('LOGOUT')      
+      this.$cookies.remove('user_id')
+      console.log("Log out  ", this.$cookies.get('user_id') + " "+ this.$cookies.get('user_level'))
+  
+    })    
+    
   }
   // async camera_list({ commit }, { id, pw }) {
   //   let { data } = await axios.post('/apis/controllers/camera_list/camera_list')

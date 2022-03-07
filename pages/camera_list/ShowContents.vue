@@ -356,57 +356,56 @@
       </v-toolbar>
     </template>
   
-    <v-data-table
+    <v-data-table  
       :headers="headers"
       :items="desserts"
       :search="search"
       :pagination.sync="pagination"
-      class="elevation-1"
+      class="my_data_table"
       rows-per-page-text="每页行数" 
     >
-      
+       
       <template slot="items" slot-scope="props" >
-          <td>{{ props.item.cam_model }}</td>
-          <td class="text-xs-right">{{ props.item.pid }}</td>
-          <td class="text-xs-right">{{ props.item.vid }}</td>
-          <td class="text-xs-right">{{ props.item.manufacturer }}</td>  
-          <td style="text-align: right; padding-left: 0px; min-width: 225px">{{ props.item.product_info }}</td>
-          <td style="text-align: right; padding-left: 0px; min-width: 225px">{{ props.item.serial_num }}</td>
-          <td class="text-xs-right">{{ props.item.ex_serial_num }}</td>
-          <td class="text-xs-right">{{ props.item.order_num }}</td>
-          <td class="text-xs-right">{{ props.item.phone_num }}</td>
-          <!-- <td class="text-xs-right">{{ props.item.uid }}</td> -->
-          <td class="text-xs-right">{{ props.item.start_time }}</td>
-          <!-- <td class="text-xs-right">{{ props.item.start_hour }}</td> -->
-          <td class="text-xs-right">{{ props.item.end_time }}</td>
-          <!-- <td class="text-xs-right">{{ props.item.end_hour }}</td> -->
-          <!-- <td class="text-xs-right">{{ props.item.client_name }}</td> -->
-          <td style="text-align: right; padding-left: 0px; min-width: 100px">{{ props.item.remarks }}</td>
-          <td style="text-align: center;  padding-left: 0px; max-width: 70px" >    
+        <tr tabindex="0">
+          <td style="width: 5%; text-align: center; padding-left: 0px; padding-right: 0px;">{{ props.item.cam_model }}</td>
+          <td style="width: 5%; text-align: center; padding-left: 0px; padding-right: 0px;">{{ props.item.pid }}</td>
+          <td style="width: 5%; text-align: center; padding-left: 0px; padding-right: 0px;">{{ props.item.vid }}</td>
+          <td style="width: 10%; text-align: center; padding-left: 0px; padding-right: 0px;">{{ props.item.manufacturer }}</td>  
+          <td style="width: 10%; text-align: center; padding-left: 0px; padding-right: 0px;">{{ props.item.product_info }}</td>
+          <td style="width: 15%; text-align: center; padding-left: 0px; padding-right: 0px; ">{{ props.item.serial_num }}</td>
+          <td style="width: 9%; text-align: center; padding-left: 0px; padding-right: 0px; ">{{ props.item.ex_serial_num }}</td>
+          <td style="width: 12%; text-align: center; padding-left: 0px; padding-right: 0px; ">{{ props.item.order_num }}</td>
+          <td style="width: 7%; text-align: center; padding-left: 0px; padding-right: 0px; ">{{ props.item.phone_num }}</td>          
+          <td style="width: 5%; text-align: center; padding-left: 0px; padding-right: 0px; ">{{ props.item.start_time }}</td>          
+          <td style="width: 5%; text-align: center; padding-left: 0px; padding-right: 0px; ">{{ props.item.end_time }}</td>          
+          <td style="width: 4%; text-align: center; padding-left: 0px; padding-right: 0px;">{{ props.item.remarks }}</td>
+          <td style="width: 5%; text-align: center; padding-left: 0px; padding-right: 0px;" > 
             <template actions="{ props.item }">
               <v-layout row wrap>                   
                 <v-flex xs12 sm6>
-                    <v-btn 
+                    <v-btn style="margin-left: 6px; "
                       flat icon color="green" 
                       @click="editItem(props.item)"
                     >
-                        <v-icon small >border_color</v-icon>
+                        <v-icon style="margin-left: 0px; " small >border_color</v-icon>
                     </v-btn>                        
                 </v-flex>  
                 <v-flex xs12 sm6> 
                     <v-btn :disabled="!btnIsValid"
+                      style="margin-left: 0px; margin-right: 6px; "
                       flat icon color="red" 
                       @click="deleteItem(props.item)"
                     >
-                        <v-icon small>delete</v-icon>
+                        <v-icon style="margin-left: 0px; " small>delete</v-icon>
                     </v-btn>
                 </v-flex>
               </v-layout>          
             </template>
             
           </td>
+        </tr>
       </template>
-      
+     
       <template v-slot:no-data>
         <v-btn
           color="primary"
@@ -443,27 +442,22 @@
           align: 'center',
           sortable: false,
           value: 'cam_model',
-          width: '90px'
+          width: '5%',          
         },
-        { text: 'PID', value: 'pid', align: 'center', width: '50px' },
-        { text: 'VID', value: 'vid', align: 'center', width: '50px' },
-        { text: 'Manufacturer', value: 'manufacturer', align: 'center', width: '100px'  },
-        { text: 'ProductInfo', value: 'product_info', align: 'center', width: '150px'  },
-        { text: '序列号', value: 'serial_num', align: 'center', width: '150px'  },
-        { text: 'ExSerialNumber', value: 'ex_serial_num', align: 'center', width: '100px'  },
-        { text: '订单号', value: 'order_num', align: 'center', width: '150px'  },
-        { text: '手机号码', value: 'phone_num', align: 'center', width: '100px'  },        
-        // { text: 'UID', value: 'uid' },
-        { text: '开始日期', value: 'start_time', align: 'center', width: '110px'  },     
-        // { text: '开始小时', value: 'start_hour' },   
-        { text: '结束日期', value: 'end_time', align: 'center', width: '110px'  },
-        // { text: '结束小时', value: 'end_hour' },        
-        // { text: '客户姓名', value: 'client_name' },
-        { text: '状态', value: 'remarks', align: 'center', width: '120px'  },
-        { text: '作用', value: 'actions', sortable: false, align: 'center', width: '100px'},
+        { text: 'PID', value: 'pid', align: 'center', width: '5%'},
+        { text: 'VID', value: 'vid', align: 'center', width: '5%'},
+        { text: 'Manufacturer', value: 'manufacturer', align: 'center', width: '10%'},
+        { text: 'ProductInfo', value: 'product_info', align: 'center', width: '10%'},
+        { text: '序列号', value: 'serial_num', align: 'center', width: '15%' },
+        { text: 'ExSerialNumber', value: 'ex_serial_num', align: 'center', width: '9%'},
+        { text: '订单号', value: 'order_num', align: 'center', width: '12%' },
+        { text: '手机号码', value: 'phone_num', align: 'center' , width: '7%' },     
+        { text: '开始日期', value: 'start_time', align: 'center', width: '5%' },             
+        { text: '结束日期', value: 'end_time', align: 'center', width: '5%' },        
+        { text: '状态', value: 'remarks', align: 'center', width: '4%'  },
+        { text: '作用', value: 'actions', sortable: false, align: 'center', width: '5%',},
       ],
-      // start_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-      // end_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      
       menu1: false,
       menu2: false,
 
@@ -516,6 +510,7 @@
       formTitle () {
         return this.editedIndex === -1 ? '添新' : '编辑项'
       },
+      
     },
     watch: {
       dialog (val) {
@@ -527,6 +522,11 @@
     },
     created () {
       if(this.$store.state.userLevel != "1") { this.btnIsValid = false}
+      if (process.client) {
+        if(window.innerHeight < 770){
+          this.pagination.rowsPerPage = 7;
+        } 
+      }
       this.initialize()
     },
     methods: {

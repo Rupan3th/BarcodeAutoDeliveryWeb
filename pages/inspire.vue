@@ -35,6 +35,7 @@
                       label="当前密码"
                       prepend-icon="pin"
                       type=password
+                      @change="validatePw"
                     ></v-text-field>      
 
                     <v-text-field    
@@ -66,7 +67,7 @@
               >
                 取消
               </v-btn>
-              <v-btn               
+              <v-btn  :disabled="btnIsValid"              
                 color="blue darken-1"
                 text
                 @click="save"
@@ -214,7 +215,7 @@
     },
     
     created () {
-      if(this.$store.state.userLevel != "1") { this.btnIsValid = false}
+      // if(this.$store.state.userLevel != "1") { this.btnIsValid = false}
       this.initialize()
     },
     methods: {           
@@ -250,7 +251,7 @@
         this.dialog = true
       },
 
-      validatePw() { 
+      async validatePw() { 
             let pw = this.frm_new_pw; 
             let number = pw.search(/[0-9]/g); 
             let english = pw.search(/[a-z]/ig); 
@@ -258,21 +259,27 @@
             if (pw.length < 8 || pw.length > 20) { 
                 this.frm_new_pw = ''
                 alert("请输入8位~20位以内。"); 
+                this.btnIsValid = true;
                 return false; 
             } else if (pw.search(/\s/) !== -1) { 
                 this.frm_new_pw = ''
                 alert("密码请输入无空格。"); 
+                this.btnIsValid = true;
                 return false; 
             } else if (number < 0 || english < 0 || specialCharacter < 0) { 
                 this.frm_new_pw = ''
                 alert("请混合输入英文字母、数字和特殊字符。"); 
+                this.btnIsValid = true;
                 return false; 
-            } else { 
-                console.log("经过"); return true; 
+            } else {  
+                if(this.frm_old_pw != "" && this.frm_new_pw != "" && this.frm_conf_pw !="")       {
+                  this.btnIsValid = false;
+                }  
+                console.log("经过"); return true;                 
             } 
         },
 
-      validateCheckedPw() { 
+      async validateCheckedPw() { 
             let pw = this.frm_new_pw;
             let checkedPw = this.frm_conf_pw; 
             let number = pw.search(/[0-9]/g); 
@@ -280,17 +287,24 @@
             let specialCharacter = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi); 
             if (checkedPw.length < 8 || checkedPw.length > 20) { 
                 alert("请输入 8 到 20 位数字。"); 
+                this.btnIsValid = true;
                 return false; 
             } else if (checkedPw.search(/\s/) !== -1) { 
                 alert("请输入不带空格的密码。"); 
+                this.btnIsValid = true;
                 return false; 
             } else if (number < 0 || english < 0 || specialCharacter < 0) { 
                 alert("请混合输入英文字母、数字和特殊字符。"); 
+                this.btnIsValid = true;
                 return false; 
             } else if (pw !== checkedPw) { 
                 this.frm_conf_pw = ''
                 alert("密码不正确。") 
+                this.btnIsValid = true;
             } else { 
+                if(this.frm_old_pw != "" && this.frm_new_pw != "" && this.frm_conf_pw !="")       {
+                  this.btnIsValid = false;
+                } 
                 console.log("经过"); return true; 
             } 
         },

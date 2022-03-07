@@ -13,27 +13,40 @@
     max-width: 400px;   
 }
   
+.my_data_table{        
+    table-layout: fixed;
+    word-break:break-all;
+}
+
+.v-datatable.v-table.theme--light{
+    width: 100%;
+    table-layout: fixed;
+    padding-left: 0px;
+    padding-right: 0px
+}
+
+
+/* .v-icon.material-icons.theme--light{
+    
+}
+
+.mycontd{
+
+} */
 
 table.v-table thead th {
     background-color: rgb(253, 182, 94);
-    font-size: 14px !important;
+    font-size: 12px !important;
     border: 1px solid gold;
 }
 
 table.v-table tbody td {
-    font-size: 14px !important;
-    border: 1px solid rgb(238, 237, 237);
-}
+    font-size: 12px !important;
+    border: 1px solid rgb(226, 226, 226);}
 
-.mytable_tr.tr.odd{
-    background-color: yellow
-}
+table.v-table tbody tr:nth-child(odd){ background-color: white }
+table.v-table tbody tr:nth-child(even){ background-color: rgb(238, 237, 237)}
 
-.mytable_tr.tr.even{
-    background-color: cyan
-}
-table.v-table tbody tr.odd{ background-color: yellow }
-table.v-table tbody tr.even { background-color: cyan }
 
 progress{
     width: 370px;

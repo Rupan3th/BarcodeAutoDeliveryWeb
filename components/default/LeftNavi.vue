@@ -8,7 +8,7 @@
   >
     <v-list flat>
       <template v-for="item in items">
-        <!-- <v-layout
+        <v-layout
           v-if="item.heading"
           :key="item.heading"
           row
@@ -22,7 +22,7 @@
           <v-flex xs6 class="text-xs-center">
             <a href="#!" class="body-2 black--text">EDIT</a>
           </v-flex>
-        </v-layout> -->
+        </v-layout>
 
         <v-list-group style="background: #f6f6f6;"
           v-if="item.children"

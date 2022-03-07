@@ -65,8 +65,9 @@ export default {
       this.rightDrawerChild = this.rightDrawerChild === true ? false : true;
       this.$emit('isRightDrawer', this.rightDrawerChild);
     },
-    fnLogout () {
-      this.$store.dispatch('logout').then(() => this.$router.push('/v1/login'))
+    fnLogout () {      
+      debugger
+      this.$store.dispatch('logout').then(() => this.$router.push('/v1/login')).catch(e => console.log(e));
     }
   },
   watch: {

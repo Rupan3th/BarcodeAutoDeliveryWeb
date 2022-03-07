@@ -15,7 +15,7 @@
 
     <!-- SPA App Page -->
     <v-content>
-      <v-container >
+      <v-container fluid >
       <!-- <v-container fluid fill-height> -->
         <nuxt />
       </v-container>

@@ -53,6 +53,7 @@
               <v-container>    
 
                 <v-text-field :readonly = "true"
+                
                       v-model="order_nums"
                       label="订单号"
                       prepend-icon="precision_manufacturing"                      

@@ -37,7 +37,13 @@ module.exports = {
   */
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+
+
+    // Simple usage
+    'cookie-universal-nuxt',
+    // With options
+    ['cookie-universal-nuxt', { alias: 'cookiz' }],
   ],
 
   /*

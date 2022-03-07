@@ -23,6 +23,7 @@ router.post('/login', (req, res) => {
 
 router.post('/logout', (req, res) => {
   delete req.session.authUser;
+  
   res.json({ ok: true });
 });
 

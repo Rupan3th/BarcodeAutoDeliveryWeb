@@ -3,9 +3,7 @@
     <template>     
       <v-toolbar flat >
         <v-toolbar-title class="mytitle">试用版单
-          <v-btn flat icon color="green" @click="refresh_table()"         >
-            <v-icon large>cached</v-icon>
-          </v-btn>          
+                 
         </v-toolbar-title>
         <v-divider
           class="mx-4"
@@ -26,6 +24,7 @@
       
         <v-dialog v-model="dialog" max-width="600">      
           <template v-slot:activator="{ on, attrs }">
+            
             <v-btn :disabled="!btnIsValid"
               color="primary"
               dark
@@ -35,6 +34,10 @@
             >
               添新
             </v-btn>
+
+            <v-btn flat icon color="green" @click="refresh_table()"         >
+            <v-icon large>cached</v-icon>
+          </v-btn> 
           </template>   
 
           <v-card>
@@ -243,7 +246,7 @@
       </v-toolbar>
     </template>
   
-    <v-data-table
+    <v-data-table 
       :headers="headers"
       :items="desserts"
       :search="search"
@@ -257,7 +260,7 @@
           <td class="text-xs-right">{{ props.item.pid }}</td>
           <td class="text-xs-right">{{ props.item.vid }}</td>
           <td class="text-xs-right">{{ props.item.manufacturer }}</td>  
-          <td style="text-align: right; padding-left: 0px; min-width: 175px">{{ props.item.product_info }}</td>
+          <td class="text-xs-right">{{ props.item.product_info }}</td>
           <td class="text-xs-right">{{ props.item.serial_num }}</td>
           <td class="text-xs-right">{{ props.item.ex_serial_num }}</td>
           <td class="text-xs-right">{{ props.item.order_num }}</td>
@@ -269,7 +272,7 @@
           <!-- <td class="text-xs-right">{{ props.item.end_hour }}</td> -->
           <!-- <td class="text-xs-right">{{ props.item.client_name }}</td> -->
           <td class="text-xs-right">{{ props.item.remarks }}</td>
-          <td style="text-align: center;  padding-left: 0px; max-width: 70px">    
+          <td class="text-xs-right">    
             <template actions="{ props.item }">    
               <v-layout row wrap>                   
                 <v-flex xs12 sm6>
@@ -329,7 +332,8 @@
           text: '相机型号',
           align: 'center',
           sortable: false,
-          value: 'cam_model',                  
+          value: 'cam_model',     
+
         },
         { text: 'PID', value: 'pid', align: 'center' },
         { text: 'VID', value: 'vid', align: 'center'},
@@ -346,7 +350,7 @@
         // { text: '结束小时', value: 'end_hour' },        
         // { text: '客户姓名', value: 'client_name' },
         { text: '状态', value: 'remarks', align: 'center'},
-        { text: '作用', value: 'actions', sortable: false, align: 'center'},
+        { text: '作用', value: 'actions', sortable: false, align: 'center', class: 'mycontd' },
       ],
       // start_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       // end_time: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
@@ -417,8 +421,8 @@
     },
     methods: {
       async initialize () {
-        console.log("User Session  ====  ", this.$store.state.userLevel)        
-
+        console.log("User Session  ====  ", this.$store.state.userLevel)      
+        
         await axios.post('/apis/camera_list/trial_list')
         .then(res => {
           console.log('response ====', res.data)
